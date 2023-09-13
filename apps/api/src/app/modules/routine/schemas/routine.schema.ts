@@ -14,5 +14,6 @@ export class Routine {
   actions: Action[];
 }
 
+export const RoutineName = 'Routine';
 export type RoutineDocument = HydratedDocument<Routine>;
 export const RoutineSchema = SchemaFactory.createForClass(Routine);

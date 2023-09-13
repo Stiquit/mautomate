@@ -2,24 +2,26 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
 import { ActionType } from '../types/action-type.enum';
 import { Device } from '../../device/schemas/device.schema';
+import { User } from '../../user/schemas/user.schema';
 
 @Schema()
 export class Action {
-  @Prop()
-  name: string;
-
   @Prop({
     type: String,
     enum: ActionType,
   })
   type: ActionType;
 
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
+  user: User;
+
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Device' })
   device: Device;
 
   @Prop()
-  date: Date;
+  date: number;
 }
 
+export const ActionName = 'Action';
 export type ActionDocument = HydratedDocument<Action>;
 export const ActionSchema = SchemaFactory.createForClass(Action);

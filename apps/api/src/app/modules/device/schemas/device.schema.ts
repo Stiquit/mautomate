@@ -26,5 +26,6 @@ export class Device {
   pin: number;
 }
 
+export const DeviceName = 'Device';
 export type DeviceDocument = HydratedDocument<Device>;
 export const DeviceSchema = SchemaFactory.createForClass(Device);

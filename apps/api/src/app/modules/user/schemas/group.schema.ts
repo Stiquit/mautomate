@@ -11,5 +11,6 @@ export class Group {
   devices: Device[];
 }
 
+export const GroupName = 'Group';
 export type GroupDocument = HydratedDocument<Group>;
 export const GroupSchema = SchemaFactory.createForClass(Group);

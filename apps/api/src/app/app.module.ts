@@ -10,7 +10,10 @@ export const MONGO_URL = process.env.DATABASE_URL;
 
 @Module({
   imports: [
-    MongooseModule.forRoot(MONGO_URL),
+    MongooseModule.forRoot(MONGO_URL, {
+      authSource: 'mautomate',
+      authMechanism: 'DEFAULT',
+    }),
     UserModule,
     DeviceModule,
     ActionModule,

@@ -7,9 +7,9 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import {
-  RegistrationRequest,
-  LoginRequest,
+  AuthenticationRequest,
   VerifyUserResponse,
+  IUser,
 } from '@mautomate/api-interfaces';
 import { TokenGeneratorService } from './token-generator.service';
 
@@ -20,7 +20,7 @@ export class AuthService {
     private tokenGeneratorService: TokenGeneratorService
   ) {}
 
-  async register(request: RegistrationRequest) {
+  async register(request: AuthenticationRequest): Promise<VerifyUserResponse> {
     const { username, password } = request;
     const registeredUser = await this.userService.findByUsername(username);
 
@@ -30,21 +30,22 @@ export class AuthService {
       );
     }
 
-    return await this.userService.create(username, password);
+    const user = await this.userService.create(username, password);
+    return await this.tokenGeneratorService.generateAccessToken(user);
   }
 
-  async verify(request: LoginRequest): Promise<VerifyUserResponse> {
-    const { id, password } = request;
-    const user = await this.userService.findById(id);
+  async verify(request: AuthenticationRequest): Promise<VerifyUserResponse> {
+    const { username, password } = request;
+    const user = await this.userService.findByUsername(username);
 
     if (!user) {
-      throw new NotFoundException(`Username: ${id} not registered`);
+      throw new NotFoundException(`Username: ${username} not registered`);
     }
 
     if (!bcrypt.compare(password, user.password)) {
       throw new UnauthorizedException('Wrong credentials');
     }
 
-    return await this.tokenGeneratorService.getAccessToken(user);
+    return await this.tokenGeneratorService.generateAccessToken(user);
   }
 }

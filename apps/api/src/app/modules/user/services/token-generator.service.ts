@@ -13,7 +13,7 @@ export class TokenGeneratorService {
     };
   }
 
-  async getAccessToken(user: UserDocument) {
+  async generateAccessToken(user: UserDocument) {
     const payload = this.generatePayload(user);
     const access_token = await this.jwtService.signAsync(payload);
     return {

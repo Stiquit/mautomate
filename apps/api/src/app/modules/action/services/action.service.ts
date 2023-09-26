@@ -2,9 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Action, ActionName } from '../schemas/action.schema';
 import { Model } from 'mongoose';
-import { ActionType } from '../types/action-type.enum';
 import { UserService } from '../../user/services/user.service';
 import { DeviceService } from '../../device/services/device.service';
+import { ActionType } from '@mautomate/api-interfaces';
 
 @Injectable()
 export class ActionService {

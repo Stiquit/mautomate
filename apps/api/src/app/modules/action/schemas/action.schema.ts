@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
-import { ActionType } from '../types/action-type.enum';
+import { ActionType } from '@mautomate/api-interfaces';
 import { Device } from '../../device/schemas/device.schema';
 import { User } from '../../user/schemas/user.schema';
 

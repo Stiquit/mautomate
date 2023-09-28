@@ -4,12 +4,15 @@ import { atom, useAtom } from 'jotai';
 import { MutableRefObject, useEffect } from 'react';
 import { scrollIntoView } from 'seamless-scroll-polyfill';
 
-export interface FormBaseControllerProps<T> {
+export interface BaseControllerProps<T> {
   name: ControllerProps['name'];
-  control: ControllerProps['control'];
-  render: ControllerProps['render'];
+  control: any;
   validators?: Validator<T>[];
   scrollRef?: MutableRefObject<Element | undefined>;
+}
+
+export interface FormBaseControllerProps<T> extends BaseControllerProps<T> {
+  render: ControllerProps['render'];
 }
 
 const errorElementAtom = atom<Element | null>(null);

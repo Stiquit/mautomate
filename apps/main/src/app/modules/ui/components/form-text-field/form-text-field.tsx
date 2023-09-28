@@ -1,16 +1,21 @@
 import { TextField, TextFieldProps } from '@mui/material';
 import {
-  FormBaseControllerProps,
+  BaseControllerProps,
   FormBaseField,
 } from '../form-base-field/form-base-field';
-import { ControllerProps } from 'react-hook-form';
+import { ControllerProps, FieldValues } from 'react-hook-form';
 import { useRef } from 'react';
 
-export type FormTextFieldProps = Omit<TextFieldProps, 'variant'> & {
+export type FormTextFieldProps<T extends FieldValues> = Omit<
+  TextFieldProps,
+  'variant'
+> & {
   variant?: TextFieldProps['variant'];
-} & FormBaseControllerProps<string>;
+} & BaseControllerProps<T>;
 
-export function FormTextField(props: FormTextFieldProps) {
+export function FormTextField<T extends FieldValues>(
+  props: FormTextFieldProps<T>
+) {
   const { name, control, validators, ...rest } = props;
   const scrollRef = useRef<Element>();
 

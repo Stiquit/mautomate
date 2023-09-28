@@ -7,27 +7,47 @@ import cn from 'classnames';
 
 import MautomateLogo from '../../../../../assets/mautomate_transparent.png';
 import AuthBG from '../../../../../assets/authentication-background.jpg';
+import { useAuthorizationForm } from '../../hooks/use-authorization-form';
+import { Loader } from '../../../ui/components/loader/loader';
 
 export function AuthScreen() {
   const [isRegistering, setIsRegistering] = useState(false);
-
+  const { loading, authorizationError, clearError } = useAuthorizationForm();
   const handleClick = () => setIsRegistering((prevState) => !prevState);
   return (
     <div className={styles['container']}>
       <div className={styles['bg-container']}>
+        <div className={styles['filter']}></div>
         <img src={AuthBG} alt="background" />
       </div>
       <div className={styles['content']}>
-        <div className={styles['logo']}>
-          <img src={MautomateLogo} alt="Mautomate Logo" />
+        <img
+          src={MautomateLogo}
+          className={styles['logo']}
+          alt="Mautomate Logo"
+        />
+        <div className={styles['title']}>Mautomate</div>
+        {loading && <Loader />}
+        {!authorizationError && (
+          <div className={styles['form']}>
+            <div className={cn({ [styles['hidden']]: isRegistering })}></div>
+            {isRegistering ? <RegisterForm /> : <LoginForm />}
+          </div>
+        )}
+        {authorizationError && (
+          <div className={styles['error-container']}>
+            <div className={styles['error']}>{authorizationError}</div>
+            <Button onClick={clearError}>Try again</Button>
+          </div>
+        )}
+        <div className={styles['btn']}>
+          <div className={styles['hint']}>
+            {isRegistering ? 'Already have an account?' : 'Not registered yet?'}
+          </div>
+          <Button onClick={handleClick} variant="secondary">
+            {isRegistering ? 'Sign in' : 'Sign up'}
+          </Button>
         </div>
-        <div className={styles['form']}>
-          <div className={cn({ [styles['hidden']]: isRegistering })}></div>
-          {isRegistering ? <RegisterForm /> : <LoginForm />}
-        </div>
-        <Button onClick={handleClick}>
-          {isRegistering ? 'Register' : 'Login'}
-        </Button>
       </div>
     </div>
   );

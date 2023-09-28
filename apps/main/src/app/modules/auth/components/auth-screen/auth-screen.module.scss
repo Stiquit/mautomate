@@ -1,7 +1,81 @@
-/*
- * Replace this with your own classes
- *
- * e.g.
- * .container {
- * }
-*/
+.container {
+  display: grid;
+  grid-template-columns: 60% 40%;
+  height: 100vh;
+  overflow-y: hidden;
+}
+
+.bg-container {
+  height: 100%;
+  display: inline-block;
+  position: relative;
+
+  .filter {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--mautomate-bg-color);
+    opacity: 0.6;
+    z-index: 10;
+  }
+
+  img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+}
+
+.content {
+  padding: 2%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .form,
+  .btn {
+    width: 90%;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .form {
+    margin: auto;
+  }
+
+  .btn {
+    margin-top: auto;
+    margin-bottom: 60px;
+  }
+
+  .hint {
+    margin-bottom: 15px;
+    font-weight: bold;
+  }
+
+  .title {
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: 700;
+    font-family: var(--secondary-font-family);
+    color: var(--secondary-color);
+  }
+
+  .logo {
+    display: block;
+    height: 35%;
+  }
+
+  .error-container {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    .error {
+      font-weight: bold;
+      color: var(--error-color);
+    }
+  }
+}

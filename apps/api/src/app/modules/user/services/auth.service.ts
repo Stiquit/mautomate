@@ -30,7 +30,8 @@ export class AuthService {
       );
     }
 
-    const user = await this.userService.create(username, password);
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await this.userService.create(username, hashedPassword);
     return await this.tokenGeneratorService.generateAccessToken(user);
   }
 

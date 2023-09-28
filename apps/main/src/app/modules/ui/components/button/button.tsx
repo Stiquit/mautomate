@@ -1,16 +1,22 @@
-import { Button as MUIButton } from '@mui/material';
 import styles from './button.module.scss';
 
+import cn from 'classnames';
 export interface ButtonProps {
-  onClick: () => void;
   children: React.ReactNode;
+  onClick?: () => void;
+  variant?: 'primary' | 'secondary';
+  type?: 'button' | 'submit';
 }
 
 export function Button(props: ButtonProps) {
-  const { onClick, children } = props;
+  const { onClick, children, variant = 'primary', type = 'button' } = props;
   return (
-    <MUIButton className={styles['button']} onClick={onClick}>
+    <button
+      className={cn(styles['button'], styles[variant])}
+      onClick={onClick}
+      type={type}
+    >
       {children}
-    </MUIButton>
+    </button>
   );
 }

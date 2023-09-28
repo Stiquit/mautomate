@@ -6,20 +6,22 @@ import {
 import { atom, useAtom } from 'jotai';
 import { useAccessToken } from './use-access-token';
 import { useCallback } from 'react';
+import { useRouter } from '../../routing/hooks/use-router';
 
 const errorMessageAtom = atom<string | null>(null);
 
-export function useAuth() {
+export function useAuthApi() {
   const { saveToken, removeToken } = useAccessToken();
-
+  const { goToHome } = useRouter();
   const [errorMessage, setErrorMessage] = useAtom(errorMessageAtom);
-  const httpClient = axios.create({
-    baseURL: '/auth',
-  });
 
   const handleError = useCallback(
     (error: unknown) => {
-      const requestErr = error as AxiosError;
+      const requestErr = error as AxiosError<{ message: string }>;
+      if (requestErr.response) {
+        const { data } = requestErr.response;
+        return setErrorMessage(data.message);
+      }
       setErrorMessage(requestErr.message);
     },
     [setErrorMessage]
@@ -27,9 +29,13 @@ export function useAuth() {
 
   const login = async (data: AuthenticationRequest) => {
     try {
-      const response = await httpClient.post<VerifyUserResponse>('/auth', data);
+      const response = await axios.post<VerifyUserResponse>(
+        'api/auth/login',
+        data
+      );
       const { access_token } = response.data;
       saveToken(access_token);
+      goToHome();
     } catch (err) {
       handleError(err);
     }
@@ -37,9 +43,13 @@ export function useAuth() {
 
   const register = async (data: AuthenticationRequest) => {
     try {
-      const response = await httpClient.post<VerifyUserResponse>('/auth', data);
+      const response = await axios.post<VerifyUserResponse>(
+        'api/auth/register',
+        data
+      );
       const { access_token } = response.data;
       saveToken(access_token);
+      goToHome();
     } catch (err) {
       handleError(err);
     }
@@ -49,8 +59,9 @@ export function useAuth() {
 
   return {
     errorMessage,
-    login: useCallback(login, [handleError, httpClient, saveToken]),
-    register: useCallback(register, [handleError, httpClient, saveToken]),
+    setErrorMessage,
+    login: useCallback(login, [goToHome, handleError, saveToken]),
+    register: useCallback(register, [goToHome, handleError, saveToken]),
     signOut: useCallback(signOut, [removeToken]),
   };
 }

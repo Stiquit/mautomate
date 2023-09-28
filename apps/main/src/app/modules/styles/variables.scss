@@ -1,0 +1,22 @@
+:root {
+  --purple-200: #bd95f4;
+  --purple-250: #8846e6;
+  --purple-400: #511f73;
+  --purple-500: #471b59;
+  --purple-700: #341940;
+  --purple-900: #1c1426;
+  --pink-200: #fad2f3;
+  --pink-400: #f29bab;
+  --pink-500: #f99fa9;
+  --white-400: #dfdfdf;
+  --red-500: #ff3333;
+}
+
+:root {
+  --mautomate-bg-color: var(--purple-700);
+  --primary-button-bg-color: var(--purple-250);
+  --primary-button-hover-bg-color: var(--purple-200);
+  --primary-color: var(--purple-900);
+  --secondary-color: var(--pink-200);
+  --error-color: var(--red-500);
+}

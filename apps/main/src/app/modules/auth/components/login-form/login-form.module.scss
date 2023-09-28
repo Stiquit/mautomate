@@ -1,7 +1,25 @@
-/*
- * Replace this with your own classes
- *
- * e.g.
- * .container {
- * }
-*/
+.form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.input {
+  width: 70%;
+  margin: 0 auto;
+  input,
+  label {
+    font-family: var(--primary-font-family);
+    color: var(--primary-color);
+    &:focus {
+      outline: none;
+    }
+  }
+
+  input {
+    background-color: white;
+    border-radius: 5px;
+  }
+}

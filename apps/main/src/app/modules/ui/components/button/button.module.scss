@@ -1,7 +1,36 @@
-/*
- * Replace this with your own classes
- *
- * e.g.
- * .container {
- * }
-*/
+.primary {
+  --btn-background: var(--primary-button-bg-color);
+  --btn-hover: var(--primary-button-hover-bg-color);
+  --btn-color: var(--primary-color);
+  --btn-hover-color: var(--secondary-color);
+  --btn-border: var(--btn-background);
+}
+
+.secondary {
+  --btn-background: var(--primary-button-hover-bg-color);
+  --btn-hover: var(--primary-button-bg-color);
+  --btn-color: var(--secondary-color);
+  --btn-hover-color: var(--primary-color);
+  --btn-border: var(--btn-background);
+}
+
+.button {
+  cursor: pointer;
+  font-family: var(--primary-font-family);
+  width: 50%;
+  margin: 0 auto;
+  padding: 2% 5%;
+  font-size: 16px;
+  font-weight: 500;
+  border: 2px solid var(--btn-border);
+  border-radius: 5px;
+  color: var(--btn-color);
+  background-color: var(--btn-background);
+  transition: all 350ms ease-in;
+  text-transform: uppercase;
+  &:hover {
+    background-color: var(--btn-hover);
+    border-color: var(--btn-hover);
+    color: var(--btn-hover-color);
+  }
+}

@@ -2,7 +2,6 @@ import styles from './nav-bar.module.scss';
 import MautomateLogo from '../../../../../assets/mautomate_transparent.png';
 import { useState } from 'react';
 import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
-import { Link } from 'react-router-dom';
 import {
   FaHouse,
   FaHouseLaptop,
@@ -13,7 +12,6 @@ import {
 import { useRouter } from '../../../routing/hooks/use-router';
 import cn from 'classnames';
 import { useUserApi } from '../../hooks/use-user-api';
-import { useOnInit } from '../../hooks/use-on-init';
 
 export function NavBar() {
   const [collapsed, setCollapsed] = useState(false);
@@ -25,7 +23,7 @@ export function NavBar() {
     goToRoutines,
     currentRoute,
   } = useRouter();
-  const { userIdentification, getUserProfile } = useUserApi();
+  const { userIdentification } = useUserApi();
   const menuItems = [
     {
       icon: <FaHouse />,
@@ -49,16 +47,10 @@ export function NavBar() {
     },
   ];
 
-  useOnInit(() => {
-    if (!userIdentification) {
-      getUserProfile();
-    }
-  });
-
   return (
     <Sidebar
-      // onMouseEnter={() => setCollapsed(false)}
-      // onMouseLeave={() => setCollapsed(true)}
+      onMouseEnter={() => setCollapsed(false)}
+      onMouseLeave={() => setCollapsed(true)}
       className={styles['sidebar']}
       collapsed={collapsed}
     >

@@ -14,6 +14,7 @@ export interface UserIdentification {
 
 const userIdentificationAtom = atom<UserIdentification | undefined>(undefined);
 const loadingRequestAtom = atom(false);
+const fetchedAtom = atom(false);
 
 export function useUserApi() {
   const { getToken } = useAccessToken();
@@ -23,6 +24,7 @@ export function useUserApi() {
     userIdentificationAtom
   );
   const [loadingRequest, setLoadingRequest] = useAtom(loadingRequestAtom);
+  const [fetched, setFetched] = useAtom(fetchedAtom);
 
   const getUserProfile = async () => {
     setLoadingRequest(true);
@@ -40,6 +42,7 @@ export function useUserApi() {
         firstName,
         lastName,
       });
+      setFetched(true);
     } catch (err) {
       handleError(err);
     } finally {
@@ -53,9 +56,11 @@ export function useUserApi() {
       getToken,
       handleError,
       setDevices,
+      setFetched,
       setLoadingRequest,
       setUserIdentification,
     ]),
+    fetched,
     loadingRequest,
     userIdentification,
   };

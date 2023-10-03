@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
-import { Device, DeviceName } from '../../device/schemas/device.schema';
-import { Routine, RoutineName } from '../../routine/schemas/routine.schema';
+import { HydratedDocument } from 'mongoose';
+import { Device, DeviceSchema } from '../../device/schemas/device.schema';
+import { Routine, RoutineSchema } from '../../routine/schemas/routine.schema';
 
 @Schema()
 export class User {
@@ -17,10 +17,10 @@ export class User {
   @Prop()
   password: string;
 
-  @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: DeviceName }] })
+  @Prop({ type: [DeviceSchema] })
   devices: Device[];
 
-  @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: RoutineName }] })
+  @Prop({ type: [RoutineSchema] })
   routines: Routine[];
 }
 

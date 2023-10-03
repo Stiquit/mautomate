@@ -8,8 +8,9 @@ import { AuthService } from './services/auth.service';
 import { JwtService, JwtModule } from '@nestjs/jwt';
 import { TokenGeneratorService } from './services/token-generator.service';
 import { AuthController } from './controllers/auth.controller';
-import { DeviceModule } from '../device/device.module';
 import { RoutineModule } from '../routine/routine.module';
+import { UserController } from './controllers/user.controller';
+import { DeviceModule } from '../device/device.module';
 
 @Module({
   imports: [
@@ -34,6 +35,6 @@ import { RoutineModule } from '../routine/routine.module';
     TokenGeneratorService,
   ],
   exports: [UserService],
-  controllers: [AuthController],
+  controllers: [AuthController, UserController],
 })
 export class UserModule {}

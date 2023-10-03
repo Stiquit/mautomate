@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
-import { Action } from '../../action/schemas/action.schema';
+import { HydratedDocument } from 'mongoose';
+import { Action, ActionSchema } from '../../action/schemas/action.schema';
 
 @Schema()
 export class Routine {
@@ -10,7 +10,7 @@ export class Routine {
   @Prop()
   repeat: string;
 
-  @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: 'Action' }] })
+  @Prop({ type: [ActionSchema] })
   actions: Action[];
 }
 

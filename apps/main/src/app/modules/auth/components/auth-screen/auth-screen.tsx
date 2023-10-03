@@ -9,10 +9,12 @@ import MautomateLogo from '../../../../../assets/mautomate_transparent.png';
 import AuthBG from '../../../../../assets/authentication-background.jpg';
 import { useAuthorizationForm } from '../../hooks/use-authorization-form';
 import { Loader } from '../../../ui/components/loader/loader';
+import { useRequestError } from '../../../error-handler/hooks/use-request-error';
 
 export function AuthScreen() {
   const [isRegistering, setIsRegistering] = useState(false);
-  const { loading, authorizationError, clearError } = useAuthorizationForm();
+  const { loading, authorizationError } = useAuthorizationForm();
+  const { clearError } = useRequestError();
   const handleClick = () => setIsRegistering((prevState) => !prevState);
   return (
     <div className={styles['container']}>

@@ -6,7 +6,7 @@ const loadingAtom = atom(false);
 
 export function useAuthorizationForm() {
   const [loading, setLoading] = useAtom(loadingAtom);
-  const { register, login, errorMessage, setErrorMessage } = useAuthApi();
+  const { register, login, authorizationError } = useAuthApi();
 
   const submitRegistration = async (data: AuthenticationRequest) => {
     const { username, password } = data;
@@ -28,13 +28,10 @@ export function useAuthorizationForm() {
     setLoading(false);
   };
 
-  const clearError = () => setErrorMessage(null);
-
   return {
     submitRegistration,
     submitLogin,
     loading,
-    clearError,
-    authorizationError: errorMessage,
+    authorizationError,
   };
 }

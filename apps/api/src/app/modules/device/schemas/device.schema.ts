@@ -17,7 +17,7 @@ export class Device {
   @Prop({
     type: String,
     enum: DeviceState,
-    default: DeviceState.Disconnected,
+    default: DeviceState.Off,
   })
   state: DeviceState;
 

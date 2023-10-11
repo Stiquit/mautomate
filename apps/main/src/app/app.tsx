@@ -6,7 +6,9 @@ export function App() {
   return (
     <div className={styles['container']}>
       <NavBar />
-      <Outlet />
+      <div className={styles['content']}>
+        <Outlet />
+      </div>
     </div>
   );
 }

@@ -8,22 +8,24 @@ import {
   FaRepeat,
   FaObjectGroup,
   FaCircleUser,
+  FaLeaf,
 } from 'react-icons/fa6';
 import { useRouter } from '../../../routing/hooks/use-router';
 import cn from 'classnames';
-import { useUserApi } from '../../hooks/use-user-api';
+import { useUserStorage } from '../../hooks/use-user-storage';
 
 export function NavBar() {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const {
     goToHome,
     goToDevices,
     goToGroups,
     goToProfile,
     goToRoutines,
+    goToAmbiences,
     currentRoute,
   } = useRouter();
-  const { userIdentification } = useUserApi();
+  const { userIdentification } = useUserStorage();
   const menuItems = [
     {
       icon: <FaHouse />,
@@ -44,6 +46,11 @@ export function NavBar() {
       icon: <FaObjectGroup />,
       onClick: goToGroups,
       route: 'groups',
+    },
+    {
+      icon: <FaLeaf />,
+      onClick: goToAmbiences,
+      route: 'ambiences',
     },
   ];
 

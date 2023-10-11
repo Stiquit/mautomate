@@ -10,7 +10,6 @@ import { TokenGeneratorService } from './services/token-generator.service';
 import { AuthController } from './controllers/auth.controller';
 import { RoutineModule } from '../routine/routine.module';
 import { UserController } from './controllers/user.controller';
-import { DeviceModule } from '../device/device.module';
 
 @Module({
   imports: [
@@ -25,7 +24,6 @@ import { DeviceModule } from '../device/device.module';
       },
     }),
     RoutineModule,
-    DeviceModule,
   ],
   providers: [
     UserService,

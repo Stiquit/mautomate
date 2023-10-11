@@ -1,9 +1,18 @@
 .container {
   width: 100%;
   height: 100%;
+  max-height: 100vh;
+  overflow-y: hidden;
   margin: 0;
   background-color: var(--mautomate-bg-color);
   font-family: var(--primary-font-family);
   font-weight: 500;
   display: flex;
+  .content {
+    padding: 2%;
+    width: 100%;
+    & > div {
+      height: 100%;
+    }
+  }
 }

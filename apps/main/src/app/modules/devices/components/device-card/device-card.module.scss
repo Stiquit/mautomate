@@ -1,7 +1,43 @@
-/*
- * Replace this with your own classes
- *
- * e.g.
- * .container {
- * }
-*/
+.container {
+  color: var(--primary-color);
+
+  display: grid;
+  grid-template-columns: calc(25% - 5px) calc(25% - 10px) calc(25% - 10px) calc(
+      25% - 5px
+    );
+  grid-template-rows: 1fr;
+  align-items: center;
+  justify-items: center;
+  height: 100%;
+  gap: 10px;
+  .action {
+    min-width: 80%;
+    padding: 0 5px;
+    text-align: center;
+  }
+
+  .type {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    max-width: 50%;
+    .icon {
+      font-size: 36px;
+    }
+    .off {
+      opacity: 0.4;
+      font-size: 18px;
+    }
+  }
+
+  .edit {
+    width: 80%;
+    display: flex;
+    justify-content: space-evenly;
+    cursor: pointer;
+    .icon {
+      font-size: 24px;
+    }
+  }
+}

@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
 import { ActionType } from '@mautomate/api-interfaces';
-import { Device, DeviceSchema } from '../../device/schemas/device.schema';
-import { User, UserSchema } from '../../user/schemas/user.schema';
+import { Device } from '../../device/schemas/device.schema';
+import { User } from '../../user/schemas/user.schema';
 
 @Schema()
 export class Action {
@@ -12,10 +12,10 @@ export class Action {
   })
   type: ActionType;
 
-  @Prop({ type: [UserSchema] })
+  @Prop({ type: MongooseSchema.Types.ObjectId })
   user: User;
 
-  @Prop({ type: [DeviceSchema] })
+  @Prop({ type: MongooseSchema.Types.ObjectId })
   device: Device;
 
   @Prop()

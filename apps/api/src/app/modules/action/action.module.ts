@@ -4,6 +4,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ActionService } from './services/action.service';
 import { UserModule } from '../user/user.module';
 import { DeviceModule } from '../device/device.module';
+import { ActionIotController } from './controllers/action-iot.controller';
+import { ActionController } from './controllers/action.controller';
 
 @Module({
   imports: [
@@ -12,5 +14,6 @@ import { DeviceModule } from '../device/device.module';
     DeviceModule,
   ],
   providers: [ActionService],
+  controllers: [ActionIotController, ActionController],
 })
 export class ActionModule {}

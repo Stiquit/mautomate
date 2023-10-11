@@ -5,14 +5,8 @@ import { GetProfileResponse } from '@mautomate/api-interfaces';
 import { useCallback } from 'react';
 import { useDeviceStorage } from '../../devices/hooks/use-device-storage';
 import { atom, useAtom } from 'jotai';
+import { useUserStorage } from './use-user-storage';
 
-export interface UserIdentification {
-  username: string;
-  firstName: string;
-  lastName: string;
-}
-
-const userIdentificationAtom = atom<UserIdentification | undefined>(undefined);
 const loadingRequestAtom = atom(false);
 const fetchedAtom = atom(false);
 
@@ -20,11 +14,9 @@ export function useUserApi() {
   const { getToken } = useAccessToken();
   const { setDevices } = useDeviceStorage();
   const { handleError, errorMessage: userError } = useRequestError();
-  const [userIdentification, setUserIdentification] = useAtom(
-    userIdentificationAtom
-  );
   const [loadingRequest, setLoadingRequest] = useAtom(loadingRequestAtom);
   const [fetched, setFetched] = useAtom(fetchedAtom);
+  const { updateUser, updateUserIdentification } = useUserStorage();
 
   const getUserProfile = async () => {
     setLoadingRequest(true);
@@ -37,7 +29,8 @@ export function useUserApi() {
       const { profile } = response.data;
       const { devices, username, firstName, lastName } = profile;
       setDevices(devices);
-      setUserIdentification({
+      updateUser(profile);
+      updateUserIdentification({
         username,
         firstName,
         lastName,
@@ -58,10 +51,10 @@ export function useUserApi() {
       setDevices,
       setFetched,
       setLoadingRequest,
-      setUserIdentification,
+      updateUser,
+      updateUserIdentification,
     ]),
     fetched,
     loadingRequest,
-    userIdentification,
   };
 }

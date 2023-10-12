@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { Device, DeviceSchema } from '../../device/schemas/device.schema';
 import { Routine, RoutineSchema } from '../../routine/schemas/routine.schema';
+import { Group, GroupSchema } from '../../group/schemas/group.schema';
 
 @Schema()
 export class User {
@@ -22,6 +23,9 @@ export class User {
 
   @Prop({ type: [RoutineSchema] })
   routines: Routine[];
+
+  @Prop({ type: [GroupSchema] })
+  groups: Group[];
 }
 
 export const UserName = 'User';

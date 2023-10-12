@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Device, DeviceDocument, DeviceName } from '../schemas/device.schema';
+import { DeviceDocument, DeviceName } from '../schemas/device.schema';
 import { Model } from 'mongoose';
 import {
   CreateDeviceDTO,
@@ -29,20 +29,22 @@ export class DeviceService {
   }
 
   async findByIds(ids: string[]): Promise<DeviceDocument[]> {
-    return await this.deviceModel.find({
-      _id: {
-        $in: ids,
-      },
-    });
+    return await this.deviceModel
+      .find({
+        _id: {
+          $in: ids,
+        },
+      })
+      .exec();
   }
 
   async create(devices: CreateDeviceDTO[]): Promise<DeviceDocument[]> {
     return await this.deviceModel.create(devices);
   }
 
-  async addDevices(id: string, newDevices: CreateDeviceDTO[]) {
+  async addDevices(userId: string, newDevices: CreateDeviceDTO[]) {
     const devices = await this.create(newDevices);
-    await this.userService.addDevices(id, devices);
+    await this.userService.addDevices(userId, devices);
   }
 
   async updateState(id: string, state: DeviceState) {

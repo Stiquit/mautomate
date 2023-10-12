@@ -7,7 +7,7 @@ import { socket } from '../../../../socket';
 import { atom, useAtom } from 'jotai';
 import { useEffect } from 'react';
 import { Socket } from 'socket.io-client';
-import { useUserStorage } from './use-user-storage';
+import { useUserStorage } from '../../user/hooks/use-user-storage';
 import { useDeviceStorage } from '../../devices/hooks/use-device-storage';
 
 const webSocketAtom = atom<Socket | undefined>(undefined);

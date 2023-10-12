@@ -10,5 +10,3 @@ export function Ambiences(props: AmbiencesProps) {
     </div>
   );
 }
-
-export default Ambiences;

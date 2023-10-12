@@ -12,7 +12,7 @@ export function useDeviceApi() {
   const { getToken } = useAccessToken();
   const { setDevices } = useDeviceStorage();
   const [loadingRequest, setLoadingRequest] = useAtom(loadingRequestAtom);
-  const { handleError, errorMessage: userError } = useRequestError();
+  const { handleError } = useRequestError();
 
   const getUserDevices = async () => {
     setLoadingRequest(true);

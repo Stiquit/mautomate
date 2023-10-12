@@ -1,11 +1,20 @@
+import { useDeviceApi } from '../../../devices/hooks/use-device-api';
 import { MainLayout } from '../../../shared/components/main-layout/main-layout';
+import { useActionApi } from '../../../shared/hooks/use-action-api';
+import { useOnInit } from '../../../shared/hooks/use-on-init';
 import { Card } from '../../../ui/components/card/card';
-import Ambiences from '../ambiences/ambiences';
-import LatestActions from '../latest-actions/latest-actions';
+import { Ambiences } from '../ambiences/ambiences';
+import { LatestActions } from '../latest-actions/latest-actions';
 import { MostUsedDevices } from '../most-used-devices/most-used-devices';
 import styles from './home-screen.module.scss';
 
 export function HomeScreen() {
+  const { getLatestActions } = useActionApi();
+  const { getUserDevices } = useDeviceApi();
+  useOnInit(() => {
+    getUserDevices();
+    getLatestActions();
+  });
   return (
     <MainLayout>
       <div className={styles['container']}>

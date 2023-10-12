@@ -9,3 +9,10 @@ export interface IAction extends WithId {
   device: IDevice;
   date: number;
 }
+
+export interface NotPopulatedAction {
+  type: ActionType;
+  user: string;
+  device: string;
+  date: number;
+}

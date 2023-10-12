@@ -28,7 +28,7 @@ export class DeviceService {
     return this.deviceModel.find();
   }
 
-  async findByIds(ids: string[]) {
+  async findByIds(ids: string[]): Promise<DeviceDocument[]> {
     return await this.deviceModel.find({
       _id: {
         $in: ids,

@@ -9,10 +9,9 @@ import {
   DeviceType,
 } from '@mautomate/api-interfaces';
 import { Button } from '../../../ui/components/button/button';
-import { Socket } from 'socket.io-client';
 import { DeviceTypeToIcon } from '../../../shared/utilities/device-type-parser';
 import { FaTrashCan, FaPen } from 'react-icons/fa6';
-import { useUserStorage } from '../../../shared/hooks/use-user-storage';
+import { useUserStorage } from '../../../user/hooks/use-user-storage';
 import { Loader } from '../../../ui/components/loader/loader';
 export interface DeviceCardProps {
   device: IDevice;

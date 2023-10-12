@@ -1,6 +1,6 @@
 import { Loader } from '../../../ui/components/loader/loader';
 import { useOnInit } from '../../hooks/use-on-init';
-import { useUserApi } from '../../hooks/use-user-api';
+import { useUserApi } from '../../../user/hooks/use-user-api';
 
 export interface MainLayoutProps {
   children: React.ReactNode;

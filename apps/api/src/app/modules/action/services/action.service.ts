@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ActionDocument, ActionName } from '../schemas/action.schema';
-import { Model } from 'mongoose';
+import { Model, Schema } from 'mongoose';
+import * as mongoose from 'mongoose';
 import { UserService } from '../../user/services/user.service';
 import { DeviceService } from '../../device/services/device.service';
 import { ActionType, IAction } from '@mautomate/api-interfaces';
@@ -37,11 +38,40 @@ export class ActionService {
     return action.save();
   }
 
-  async findByUserId(userId: string): Promise<IAction[]> {
-    return this.actionModel
+  async findByUserId(userId: string) {
+    return await this.actionModel
       .find({ user: userId })
-      .populate(['device', 'user'])
+      .sort({
+        _id: -1,
+      })
+      .limit(5)
       .exec();
+  }
+
+  async findUserMostUsedDevices(id: string) {
+    const sortedActions = await this.actionModel
+      .aggregate<{
+        _id: string;
+        count: number;
+      }>([
+        {
+          $match: { user: new mongoose.Types.ObjectId(id) },
+        },
+        {
+          $group: { _id: '$device', count: { $sum: 1 } },
+        },
+        {
+          $sort: { count: -1 },
+        },
+        {
+          $limit: 8,
+        },
+      ])
+      .exec();
+    const sortedDevicesIds = sortedActions.map(
+      (sortedAction) => sortedAction._id
+    );
+    return await this.deviceService.findByIds(sortedDevicesIds);
   }
 
   async findAll(): Promise<IAction[]> {

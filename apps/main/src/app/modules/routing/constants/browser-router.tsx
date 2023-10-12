@@ -3,6 +3,10 @@ import { App } from '../../../app';
 import { HomeScreen } from '../../home/components/home-screen/home-screen';
 import { AuthScreen } from '../../auth/components/auth-screen/auth-screen';
 import { DevicesScreen } from '../../devices/components/devices-screen/devices-screen';
+import { RoutinesScreen } from '../../routines/components/routines-screen/routines-screen';
+import { GroupScreen } from '../../groups/components/group-screen/group-screen';
+import { AmbiencesScreen } from '../../ambiences/components/ambiences-screen/ambiences-screen';
+import { ProfileScreen } from '../../user/components/profile-screen/profile-screen';
 
 export const browserRouter = createBrowserRouter([
   { path: '/', element: <Navigate to="/login" /> },
@@ -12,6 +16,10 @@ export const browserRouter = createBrowserRouter([
     children: [
       { path: '/home', element: <HomeScreen /> },
       { path: '/devices', element: <DevicesScreen /> },
+      { path: '/routines', element: <RoutinesScreen /> },
+      { path: '/groups', element: <GroupScreen /> },
+      { path: '/ambiences', element: <AmbiencesScreen /> },
+      { path: '/profile', element: <ProfileScreen /> },
     ],
   },
   { path: '/login', element: <AuthScreen /> },

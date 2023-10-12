@@ -13,6 +13,12 @@ export class ActionController {
     return this.actionService.findByUserId(id);
   }
 
+  @Get('devices')
+  async getMostUsedDevices(@AuthPayload() payload: JwtPayload) {
+    const { id } = payload;
+    return this.actionService.findUserMostUsedDevices(id);
+  }
+
   @Get('all')
   async getAllActions() {
     return this.actionService.findAll();

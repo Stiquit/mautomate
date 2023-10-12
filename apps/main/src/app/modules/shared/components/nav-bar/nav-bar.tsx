@@ -12,7 +12,7 @@ import {
 } from 'react-icons/fa6';
 import { useRouter } from '../../../routing/hooks/use-router';
 import cn from 'classnames';
-import { useUserStorage } from '../../hooks/use-user-storage';
+import { useUserStorage } from '../../../user/hooks/use-user-storage';
 
 export function NavBar() {
   const [collapsed, setCollapsed] = useState(true);

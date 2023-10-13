@@ -1,12 +1,24 @@
+import { MainLayout } from '../../../shared/components/main-layout/main-layout';
+import { Button } from '../../../ui/components/button/button';
 import styles from './routines-screen.module.scss';
 
-/* eslint-disable-next-line */
-export interface RoutinesScreenProps {}
-
-export function RoutinesScreen(props: RoutinesScreenProps) {
+export function RoutinesScreen() {
   return (
-    <div className={styles['container']}>
-      <h1>Welcome to RoutinesScreen!</h1>
-    </div>
+    <MainLayout>
+      <div className={styles['container']}>
+        <div className={styles['top-content']}>
+          <div className={styles['title']}>Groups</div>
+          <div className={styles['top-container']}>
+            <div className={styles['text']}>
+              Add, edit, and delete your routines here
+            </div>
+            <div className={styles['add-btn']}>
+              <Button>Add</Button>
+            </div>
+          </div>
+        </div>
+        <div className={styles['content']}></div>
+      </div>
+    </MainLayout>
   );
 }

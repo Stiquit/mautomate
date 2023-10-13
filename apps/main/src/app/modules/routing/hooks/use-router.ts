@@ -11,7 +11,7 @@ export function useRouter() {
   const goToRoutines = () => navigate('/routines');
   const goToGroups = () => navigate('/groups');
   const goToProfile = () => navigate('/profile');
-  const goToAmbiences = () => navigate('/ambiences');
+
   return {
     goToHome: useCallback(goToHome, [navigate]),
     goToLogin: useCallback(goToLogin, [navigate]),
@@ -19,7 +19,6 @@ export function useRouter() {
     goToRoutines: useCallback(goToRoutines, [navigate]),
     goToGroups: useCallback(goToGroups, [navigate]),
     goToProfile: useCallback(goToProfile, [navigate]),
-    goToAmbiences: useCallback(goToAmbiences, [navigate]),
     currentRoute: useMemo(() => location.pathname, [location.pathname]),
   };
 }

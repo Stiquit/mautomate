@@ -12,7 +12,6 @@ import { Button } from '../../../ui/components/button/button';
 import { DeviceTypeToIcon } from '../../../shared/utilities/device-type-parser';
 import { FaTrashCan, FaPen } from 'react-icons/fa6';
 import { useUserStorage } from '../../../user/hooks/use-user-storage';
-import { Loader } from '../../../ui/components/loader/loader';
 export interface DeviceCardProps {
   device: IDevice;
   onSwitchTurn: (payload: TurnSwitchDevice) => void;

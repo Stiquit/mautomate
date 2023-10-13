@@ -1,20 +1,11 @@
-import { useDeviceApi } from '../../../devices/hooks/use-device-api';
 import { MainLayout } from '../../../shared/components/main-layout/main-layout';
-import { useActionApi } from '../../../shared/hooks/use-action-api';
-import { useOnInit } from '../../../shared/hooks/use-on-init';
 import { Card } from '../../../ui/components/card/card';
-import { Ambiences } from '../ambiences/ambiences';
+import { Groups } from '../groups/groups';
 import { LatestActions } from '../latest-actions/latest-actions';
 import { MostUsedDevices } from '../most-used-devices/most-used-devices';
 import styles from './home-screen.module.scss';
 
 export function HomeScreen() {
-  const { getLatestActions } = useActionApi();
-  const { getUserDevices } = useDeviceApi();
-  useOnInit(() => {
-    getUserDevices();
-    getLatestActions();
-  });
   return (
     <MainLayout>
       <div className={styles['container']}>
@@ -31,11 +22,6 @@ export function HomeScreen() {
               <MostUsedDevices />
             </Card>
           </div>
-          <div className={styles['ambiences']}>
-            <Card>
-              <Ambiences />
-            </Card>
-          </div>
           <div className={styles['routines']}>
             <Card>
               <div>Routines container</div>
@@ -43,7 +29,7 @@ export function HomeScreen() {
           </div>
           <div className={styles['groups']}>
             <Card>
-              <div>Groups container</div>
+              <Groups />
             </Card>
           </div>
           <div className={styles['latest-actions']}>

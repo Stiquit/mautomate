@@ -1,7 +1,42 @@
-/*
- * Replace this with your own classes
- *
- * e.g.
- * .container {
- * }
-*/
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: var(--primary-font-family);
+}
+.top-content {
+  font-weight: 700;
+  margin-bottom: 15px;
+  .title {
+    color: var(--secondary-color);
+    margin: 15px 0 25px;
+    font-size: 24px;
+    font-family: var(--secondary-font-family);
+  }
+  .top-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .add-btn {
+    min-width: 20%;
+    text-align: right;
+  }
+  .text {
+    color: var(--primary-color);
+    font-size: 16px;
+    padding-left: 3%;
+  }
+}
+
+.content {
+  padding: 2%;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  grid-auto-rows: calc(30% - 10px);
+  height: 100%;
+  background-color: var(--secondary-card-bg-color);
+  overflow-y: auto;
+}

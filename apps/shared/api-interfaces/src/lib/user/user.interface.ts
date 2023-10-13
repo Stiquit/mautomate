@@ -1,4 +1,5 @@
 import { IDevice } from '../devices/device.interface';
+import { IGroup } from '../groups';
 import { IRoutine } from '../routine/routine.interface';
 import { WithId } from '../shared/with-id.interface';
 
@@ -8,5 +9,6 @@ export interface IUser extends WithId {
   username: string;
   password: string;
   devices: IDevice[];
+  groups: IGroup[];
   routines: IRoutine[];
 }

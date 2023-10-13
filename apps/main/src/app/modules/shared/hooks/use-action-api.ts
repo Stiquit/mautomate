@@ -11,12 +11,14 @@ import { useDeviceStorage } from '../../devices/hooks/use-device-storage';
 import { useCallback } from 'react';
 import { useActionStorage } from './use-action-storage';
 import { useUserStorage } from '../../user/hooks/use-user-storage';
+import { useDeviceApi } from '../../devices/hooks/use-device-api';
 
 const loadingRequestAtom = atom(false);
 
 export function useActionApi() {
   const { getToken } = useAccessToken();
   const { goToLogin } = useRouter();
+  const { getUserDevices } = useDeviceApi();
   const { setMostUsedDevices, devices } = useDeviceStorage();
   const { user } = useUserStorage();
   const { setLatestActions } = useActionStorage();
@@ -48,7 +50,7 @@ export function useActionApi() {
           Authorization: `Bearer ${getToken()}`,
         },
       });
-
+      await getUserDevices();
       const latestActions: IAction[] = response.data.map((action) => {
         const device = devices.find(
           (device) => String(device._id) === action.device
@@ -85,6 +87,7 @@ export function useActionApi() {
     getLatestActions: useCallback(getLatestActions, [
       devices,
       getToken,
+      getUserDevices,
       goToLogin,
       setLatestActions,
       setLoadingRequest,

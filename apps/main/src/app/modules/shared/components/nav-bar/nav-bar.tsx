@@ -8,7 +8,6 @@ import {
   FaRepeat,
   FaObjectGroup,
   FaCircleUser,
-  FaLeaf,
 } from 'react-icons/fa6';
 import { useRouter } from '../../../routing/hooks/use-router';
 import cn from 'classnames';
@@ -22,7 +21,6 @@ export function NavBar() {
     goToGroups,
     goToProfile,
     goToRoutines,
-    goToAmbiences,
     currentRoute,
   } = useRouter();
   const { userIdentification } = useUserStorage();
@@ -46,11 +44,6 @@ export function NavBar() {
       icon: <FaObjectGroup />,
       onClick: goToGroups,
       route: 'groups',
-    },
-    {
-      icon: <FaLeaf />,
-      onClick: goToAmbiences,
-      route: 'ambiences',
     },
   ];
 

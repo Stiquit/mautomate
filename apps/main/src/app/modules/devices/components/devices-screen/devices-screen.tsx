@@ -36,8 +36,13 @@ export function DevicesScreen() {
       <div className={styles['container']}>
         <div className={styles['top-content']}>
           <div className={styles['title']}>Devices</div>
-          <div className={styles['text']}>
-            Add, edit, turn on or off your devices here
+          <div className={styles['top-container']}>
+            <div className={styles['text']}>
+              Add, edit, and delete your devices here
+            </div>
+            <div className={styles['add-btn']}>
+              <Button>Add</Button>
+            </div>
           </div>
         </div>
         <div className={styles['content']}>

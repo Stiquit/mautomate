@@ -1,0 +1,15 @@
+.device {
+  padding: 2% 5%;
+  border-radius: 10px;
+  width: 100%;
+  background-color: var(--secondary-card-bg-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .icon {
+    font-size: 24px;
+  }
+  .off {
+    opacity: 0.4;
+  }
+}

@@ -6,6 +6,7 @@ import { useCallback } from 'react';
 import { useDeviceStorage } from '../../devices/hooks/use-device-storage';
 import { atom, useAtom } from 'jotai';
 import { useUserStorage } from './use-user-storage';
+import { useGroupStorage } from '../../groups/hooks/use-group-storage';
 
 const loadingRequestAtom = atom(false);
 const fetchedAtom = atom(false);
@@ -13,6 +14,7 @@ const fetchedAtom = atom(false);
 export function useUserApi() {
   const { getToken } = useAccessToken();
   const { setDevices } = useDeviceStorage();
+  const { setGroups } = useGroupStorage();
   const { handleError, errorMessage: userError } = useRequestError();
   const [loadingRequest, setLoadingRequest] = useAtom(loadingRequestAtom);
   const [fetched, setFetched] = useAtom(fetchedAtom);
@@ -27,8 +29,9 @@ export function useUserApi() {
         },
       });
       const { profile } = response.data;
-      const { devices, username, firstName, lastName } = profile;
+      const { devices, username, firstName, lastName, groups } = profile;
       setDevices(devices);
+      setGroups(groups);
       updateUser(profile);
       updateUserIdentification({
         username,
@@ -50,6 +53,7 @@ export function useUserApi() {
       handleError,
       setDevices,
       setFetched,
+      setGroups,
       setLoadingRequest,
       updateUser,
       updateUserIdentification,

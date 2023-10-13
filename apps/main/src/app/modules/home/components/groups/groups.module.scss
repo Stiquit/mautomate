@@ -4,7 +4,6 @@
   align-items: center;
   font-size: 16px;
   height: 100%;
-
   color: var(--primary-color);
   font-family: var(--primary-font-family);
   .title {
@@ -14,17 +13,6 @@
     font-size: 20px;
     font-family: var(--secondary-font-family);
   }
-}
-
-.devices {
-  width: 95%;
-  height: 100%;
-  display: flex;
-  gap: 15px;
-  padding: 2% 4%;
-  flex-direction: column;
-  align-items: center;
-  overflow-y: auto;
 }
 
 .loader {
@@ -39,3 +27,14 @@
   width: 100%;
   text-align: center;
 }
+
+.groups {
+  width: 95%;
+  height: 100%;
+  display: flex;
+  gap: 15px;
+  padding: 2% 4% 4%;
+  align-items: center;
+  overflow-x: auto;
+}
+

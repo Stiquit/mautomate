@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RoutineName, RoutineSchema } from './schemas/routine.schema';
 import { RoutineService } from './services/routine.service';
+import { RoutineController } from './controllers/routine.controller';
 
 @Module({
   imports: [
@@ -9,5 +10,6 @@ import { RoutineService } from './services/routine.service';
   ],
   exports: [RoutineService],
   providers: [RoutineService],
+  controllers: [RoutineController],
 })
 export class RoutineModule {}

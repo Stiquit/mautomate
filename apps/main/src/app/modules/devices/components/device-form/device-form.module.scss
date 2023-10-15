@@ -1,0 +1,40 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  gap: 25px;
+  & :global {
+    .MuiAutocomplete-root {
+      width: 95%;
+      input,
+      label {
+        font-family: var(--primary-font-family);
+        color: var(--primary-color);
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+  }
+}
+
+.input {
+  width: 95%;
+  margin: 0 auto;
+  input,
+  label {
+    font-family: var(--primary-font-family);
+    color: var(--primary-color);
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}

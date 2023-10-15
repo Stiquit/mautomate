@@ -10,3 +10,11 @@ export const DeviceTypeToIcon: Record<DeviceType, React.ReactNode> = {
   [DeviceType.Lamp]: <TbLamp />,
   [DeviceType.Tv]: <FaTv />,
 };
+
+export const DeviceTypes = [
+  DeviceType.Light,
+  DeviceType.Lamp,
+  DeviceType.CoffeeMachine,
+  DeviceType.Switch,
+  DeviceType.Tv,
+];

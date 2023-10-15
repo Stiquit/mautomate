@@ -1,16 +1,57 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { DeviceService } from '../services/device.service';
-import { JwtPayload, AddDevicesRequest } from '@mautomate/api-interfaces';
+import {
+  JwtPayload,
+  AddDevicesRequest,
+  CreateDeviceDTO,
+} from '@mautomate/api-interfaces';
 import { AuthPayload } from '../../user/decorators/auth-payload.decorator';
 
 @Controller('device')
 export class DeviceController {
   constructor(private deviceService: DeviceService) {}
 
+  @Post()
+  async addUserDevice(
+    @AuthPayload() payload: JwtPayload,
+    @Body() body: AddDevicesRequest
+  ) {
+    const { id } = payload;
+    const { newDevices } = body;
+    return await this.deviceService.addDevices(id, newDevices);
+  }
+
   @Get('user')
   async findUserDevices(@AuthPayload() payload: JwtPayload) {
     const { id } = payload;
     return await this.deviceService.findUserDevices(id);
+  }
+
+  @Put(':id')
+  async updateDevice(
+    @AuthPayload() payload: JwtPayload,
+    @Body() body: CreateDeviceDTO,
+    @Param('id') id: string
+  ) {
+    const { id: userId } = payload;
+    return await this.deviceService.updateDevice(id, userId, body);
+  }
+
+  @Delete(':id')
+  async deleteById(
+    @Param('id') id: string,
+    @AuthPayload() payload: JwtPayload
+  ) {
+    const { id: userId } = payload;
+    return this.deviceService.deleteById(id, userId);
   }
 
   /**
@@ -29,24 +70,5 @@ export class DeviceController {
   @Get(':id')
   async findById(@Param('id') id: string) {
     return this.deviceService.findById(id);
-  }
-
-  @Delete(':id')
-  async deleteById(
-    @Param('id') id: string,
-    @AuthPayload() payload: JwtPayload
-  ) {
-    const { id: userId } = payload;
-    return this.deviceService.deleteById(id, userId);
-  }
-
-  @Post()
-  async addUserDevice(
-    @AuthPayload() payload: JwtPayload,
-    @Body() body: AddDevicesRequest
-  ) {
-    const { id } = payload;
-    const { newDevices } = body;
-    return await this.deviceService.addDevices(id, newDevices);
   }
 }

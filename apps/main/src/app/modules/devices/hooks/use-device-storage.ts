@@ -21,6 +21,14 @@ export function useDeviceStorage() {
     );
   }
 
+  function updateDevice(newDevice: IDevice) {
+    setDevices((previousDevices) =>
+      previousDevices.map((device) =>
+        String(device._id) === String(newDevice._id) ? newDevice : device
+      )
+    );
+  }
+
   function checkForDeviceInteraction(deviceId: string, state: number) {
     setDevices((previousDevices) =>
       previousDevices.map((device) => {
@@ -41,6 +49,10 @@ export function useDeviceStorage() {
     );
   }
 
+  function getDevice(deviceId: string) {
+    return devices.find((device) => String(device._id) === deviceId);
+  }
+
   return {
     devices,
     mostUsedDevices,
@@ -51,5 +63,7 @@ export function useDeviceStorage() {
       setDevices,
     ]),
     removeDevice: useCallback(removeDevice, [setDevices]),
+    getDevice: useCallback(getDevice, [devices]),
+    updateDevice: useCallback(updateDevice, [setDevices]),
   };
 }

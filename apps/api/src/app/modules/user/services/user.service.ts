@@ -28,13 +28,24 @@ export class UserService {
   async getUserProfile(id: string) {
     return this.userModel.findById(id).populate(this.relations).exec();
   }
-  async addDevices(id: string, devices: IDevice[]) {
+  async setDevices(id: string, devices: IDevice[]) {
     const user = await this.findById(id);
-    user.devices.push(...devices);
+    user.devices = devices;
     await user.save();
     return user.devices;
   }
 
+  async removeDevice(userId: string, deletedDevice: IDevice) {
+    const user = await this.findById(userId);
+    user.devices = user.devices.filter(
+      (device) =>
+        device.name !== deletedDevice.name &&
+        device.type !== deletedDevice.type &&
+        device.pin !== deletedDevice.pin
+    );
+    await user.save();
+    return user.devices;
+  }
   async addGroup(id: string, group: IGroup) {
     const user = await this.findById(id);
     user.groups.push(group);

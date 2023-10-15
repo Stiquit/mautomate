@@ -13,11 +13,14 @@ import styles from './devices-screen.module.scss';
 import { useDeviceApi } from '../../hooks/use-device-api';
 import { useOnInit } from '../../../shared/hooks/use-on-init';
 import { GridLayout } from '../../../shared/components/grid-layout/grid-layout';
+import { DeviceForm } from '../device-form/device-form';
+import { useFormDialog } from '../../../ui/hook/use-form-dialog';
 
 export function DevicesScreen() {
   const { getUserDevices, loadingRequest } = useDeviceApi();
   const { devices, setLoadingDevice } = useDeviceStorage();
   const { webSocket, connect } = useWebSocket();
+  const { closeForm, isOpenForm, openCreateForm, formType } = useFormDialog();
 
   function onSwitchTurn(payload: TurnSwitchDevice) {
     onDeviceTurn(payload);
@@ -48,7 +51,7 @@ export function DevicesScreen() {
               Add, edit, and delete your devices here
             </div>
             <div className={styles['add-btn']}>
-              <Button>Add</Button>
+              <Button onClick={openCreateForm}>Add</Button>
             </div>
           </div>
         </div>
@@ -69,6 +72,7 @@ export function DevicesScreen() {
           )}
         </GridLayout>
       </div>
+      <DeviceForm close={closeForm} isOpen={isOpenForm} type={formType} />
     </MainLayout>
   );
 }

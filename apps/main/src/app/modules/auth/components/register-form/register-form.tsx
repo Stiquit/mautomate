@@ -6,7 +6,7 @@ import { FormTextField } from '../../../ui/components/form-text-field/form-text-
 import { requiredValidator } from '../../../ui/validator/required';
 import { useAuthorizationForm } from '../../hooks/use-authorization-form';
 import { Button } from '../../../ui/components/button/button';
-import { stringLengthValidator } from '../../../ui/validator/min-lenght';
+import { stringLengthValidator } from '../../../ui/validator/string-lenght';
 
 export function RegisterForm() {
   const { formMethods, handleSubmit, control } =

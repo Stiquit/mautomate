@@ -6,7 +6,7 @@ import { useFormControl } from '../../../ui/hook/use-form-control';
 import { FormTextField } from '../../../ui/components/form-text-field/form-text-field';
 import { requiredValidator } from '../../../ui/validator/required';
 import { Button } from '../../../ui/components/button/button';
-import { stringLengthValidator } from '../../../ui/validator/min-lenght';
+import { stringLengthValidator } from '../../../ui/validator/string-lenght';
 
 export function LoginForm() {
   const { formMethods, handleSubmit, control } =

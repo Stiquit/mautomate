@@ -54,7 +54,9 @@ export class DeviceService {
 
   async addDevices(userId: string, newDevices: CreateDeviceDTO[]) {
     const devices = await this.create(newDevices);
-    return await this.userService.addDevices(userId, devices);
+    const userDevices = await this.findUserDevices(userId);
+    userDevices.push(...devices);
+    return await this.userService.setDevices(userId, userDevices);
   }
 
   async updateState(id: string, state: DeviceState) {
@@ -92,5 +94,12 @@ export class DeviceService {
       String((device as IDevice)._id)
     );
     return await this.findByIds(deviceIds);
+  }
+
+  async updateDevice(id: string, userId: string, body: CreateDeviceDTO) {
+    await this.validateDeviceOwnership(userId, id);
+    return await this.deviceModel.findByIdAndUpdate(id, body, {
+      new: true,
+    });
   }
 }

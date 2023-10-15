@@ -1,8 +1,12 @@
 import { atom, useAtom } from 'jotai';
 import { useDeviceStorage } from './use-device-storage';
 import { useAccessToken } from '../../auth/hooks/use-access-token';
-import axios from 'axios';
-import { IDevice } from '@mautomate/api-interfaces';
+import axios, { AxiosResponse } from 'axios';
+import {
+  AddDevicesRequest,
+  CreateDeviceDTO,
+  IDevice,
+} from '@mautomate/api-interfaces';
 import { useRequestError } from '../../error-handler/hooks/use-request-error';
 import { useCallback } from 'react';
 
@@ -10,7 +14,7 @@ const loadingRequestAtom = atom(false);
 
 export function useDeviceApi() {
   const { getToken } = useAccessToken();
-  const { setDevices, removeDevice } = useDeviceStorage();
+  const { setDevices, removeDevice, updateDevice } = useDeviceStorage();
   const [loadingRequest, setLoadingRequest] = useAtom(loadingRequestAtom);
   const { handleError } = useRequestError();
 
@@ -50,6 +54,59 @@ export function useDeviceApi() {
     }
   };
 
+  const postDevice = async (data: CreateDeviceDTO) => {
+    setLoadingRequest(true);
+    try {
+      const response = await axios.post<
+        IDevice[],
+        AxiosResponse<IDevice[]>,
+        AddDevicesRequest
+      >(
+        'api/device',
+        {
+          newDevices: [data],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+          },
+        }
+      );
+      const devices = response.data;
+      setDevices(devices);
+    } catch (err) {
+      handleError(err);
+      console.error(err);
+    } finally {
+      setLoadingRequest(false);
+    }
+  };
+
+  const updateDeviceInformation = async (
+    deviceId: string,
+    data: CreateDeviceDTO
+  ) => {
+    setLoadingRequest(true);
+    try {
+      const response = await axios.put<IDevice>(
+        `api/device/${deviceId}`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+          },
+        }
+      );
+      const deviceToUpdate = response.data;
+      updateDevice(deviceToUpdate);
+    } catch (err) {
+      handleError(err);
+      console.error(err);
+    } finally {
+      setLoadingRequest(false);
+    }
+  };
+
   return {
     getUserDevices: useCallback(getUserDevices, [
       getToken,
@@ -63,6 +120,19 @@ export function useDeviceApi() {
       removeDevice,
       setLoadingRequest,
     ]),
+    postDevice: useCallback(postDevice, [
+      getToken,
+      handleError,
+      setDevices,
+      setLoadingRequest,
+    ]),
+    updateDeviceInformation: useCallback(updateDeviceInformation, [
+      getToken,
+      handleError,
+      setLoadingRequest,
+      updateDevice,
+    ]),
+    setLoadingRequest,
     loadingRequest,
   };
 }

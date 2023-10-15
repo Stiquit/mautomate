@@ -1,3 +1,5 @@
+@use 'scrollbar.scss' as *;
+
 .container {
   display: flex;
   flex-direction: column;
@@ -31,11 +33,12 @@
   padding: 2% 4% 4%;
   align-items: center;
   overflow-x: auto;
+  @include scrollbar();
 }
 
 .action {
   padding: 4% 8%;
-  border-radius: 10px;
+  border-radius: var(--primary-border-radius);
   height: 100%;
   background-color: var(--secondary-card-bg-color);
   display: flex;

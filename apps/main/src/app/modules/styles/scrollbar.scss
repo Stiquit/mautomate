@@ -1,0 +1,20 @@
+@mixin scrollbar(
+  $size: 5px,
+  $foreground-color: var(--secondary-card-bg-color),
+  $background-color: #333
+) {
+  // For Chrome & Safari
+  &::-webkit-scrollbar {
+    width: $size;
+    height: $size;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $foreground-color;
+  }
+  &::-webkit-scrollbar-track {
+    background: $background-color;
+  }
+
+  // Standard version (Firefox only for now)
+  scrollbar-color: $foreground-color $background-color;
+}

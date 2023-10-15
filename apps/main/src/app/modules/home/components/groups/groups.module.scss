@@ -1,3 +1,5 @@
+@use 'scrollbar.scss' as *;
+
 .container {
   display: flex;
   flex-direction: column;
@@ -36,5 +38,6 @@
   padding: 2% 4% 4%;
   align-items: center;
   overflow-x: auto;
+  @include scrollbar();
 }
 

@@ -22,7 +22,7 @@
   font-size: 16px;
   font-weight: 500;
   border: 2px solid var(--btn-border);
-  border-radius: 5px;
+  border-radius: var(--secondary-border-radius);
   color: var(--btn-color);
   background-color: var(--btn-background);
   transition: all 350ms ease-in;

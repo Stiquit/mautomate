@@ -1,6 +1,6 @@
 .container {
   padding: 2% 4%;
-  border-radius: 10px;
+  border-radius: var(--primary-border-radius);
   background-color: var(--card-bg-color);
   font-family: var(--primary-font-family);
   color: var(--primary-color);

@@ -1,9 +1,11 @@
+@use 'scrollbar.scss' as *;
 .container {
   display: flex;
   flex-direction: column;
   height: 100%;
   font-family: var(--primary-font-family);
 }
+
 .top-content {
   font-weight: 700;
   margin-bottom: 15px;
@@ -31,7 +33,7 @@
 
 .content {
   padding: 2%;
-  border-radius: 10px;
+  border-radius: var(--primary-border-radius);
   display: grid;
   grid-template-columns: 1fr;
   gap: 10px;
@@ -39,4 +41,5 @@
   height: 100%;
   background-color: var(--secondary-card-bg-color);
   overflow-y: auto;
+  @include scrollbar(5px, var(--card-bg-color));
 }

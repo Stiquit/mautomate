@@ -1,0 +1,17 @@
+.name {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  .device {
+    width: 50%;
+  }
+  .hint {
+    margin-bottom: 25px;
+  }
+}

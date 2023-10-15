@@ -10,7 +10,7 @@ const loadingRequestAtom = atom(false);
 
 export function useDeviceApi() {
   const { getToken } = useAccessToken();
-  const { setDevices } = useDeviceStorage();
+  const { setDevices, removeDevice } = useDeviceStorage();
   const [loadingRequest, setLoadingRequest] = useAtom(loadingRequestAtom);
   const { handleError } = useRequestError();
 
@@ -32,11 +32,35 @@ export function useDeviceApi() {
     }
   };
 
+  const deleteDevice = async (id: string) => {
+    setLoadingRequest(true);
+    try {
+      const response = await axios.delete<IDevice>(`api/device/${id}`, {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      });
+      const device = response.data;
+      removeDevice(String(device._id));
+    } catch (err) {
+      handleError(err);
+      console.error(err);
+    } finally {
+      setLoadingRequest(false);
+    }
+  };
+
   return {
     getUserDevices: useCallback(getUserDevices, [
       getToken,
       handleError,
       setDevices,
+      setLoadingRequest,
+    ]),
+    deleteDevice: useCallback(deleteDevice, [
+      getToken,
+      handleError,
+      removeDevice,
       setLoadingRequest,
     ]),
     loadingRequest,

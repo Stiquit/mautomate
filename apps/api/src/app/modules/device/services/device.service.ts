@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { DeviceDocument, DeviceName } from '../schemas/device.schema';
 import { Model } from 'mongoose';
@@ -6,6 +10,7 @@ import {
   CreateDeviceDTO,
   DeviceState,
   IDevice,
+  WithId,
 } from '@mautomate/api-interfaces';
 import { UserService } from '../../user/services/user.service';
 
@@ -42,9 +47,14 @@ export class DeviceService {
     return await this.deviceModel.create(devices);
   }
 
+  async deleteById(id: string, userId: string) {
+    await this.validateDeviceOwnership(userId, id);
+    return await this.deviceModel.findByIdAndDelete(id);
+  }
+
   async addDevices(userId: string, newDevices: CreateDeviceDTO[]) {
     const devices = await this.create(newDevices);
-    await this.userService.addDevices(userId, devices);
+    return await this.userService.addDevices(userId, devices);
   }
 
   async updateState(id: string, state: DeviceState) {
@@ -58,6 +68,21 @@ export class DeviceService {
       {
         new: true,
       }
+    );
+  }
+
+  async validateDeviceOwnership(userId: string, deviceId: string) {
+    const userDevices = await this.findUserDevices(userId);
+    const device = await this.findById(deviceId);
+
+    if (!this.isInDocumentArray(userDevices, device)) {
+      throw new UnauthorizedException('Not owner of device');
+    }
+  }
+
+  isInDocumentArray(documentArray: WithId[], documentToCheck: WithId) {
+    return documentArray.some(
+      (document) => String(document._id) === String(documentToCheck._id)
     );
   }
 

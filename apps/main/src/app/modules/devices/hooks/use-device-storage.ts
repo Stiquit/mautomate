@@ -35,6 +35,12 @@ export function useDeviceStorage() {
     );
   }
 
+  function removeDevice(deviceId: string) {
+    setDevices((previousDevices) =>
+      previousDevices.filter((device) => String(device._id) !== deviceId)
+    );
+  }
+
   return {
     devices,
     mostUsedDevices,
@@ -44,5 +50,6 @@ export function useDeviceStorage() {
     checkForDeviceInteraction: useCallback(checkForDeviceInteraction, [
       setDevices,
     ]),
+    removeDevice: useCallback(removeDevice, [setDevices]),
   };
 }

@@ -13,6 +13,8 @@ import { DeviceTypeToIcon } from '../../../shared/utilities/device-type-parser';
 import { FaTrashCan, FaPen } from 'react-icons/fa6';
 import { useUserStorage } from '../../../user/hooks/use-user-storage';
 import { Loader } from '../../../ui/components/loader/loader';
+import { useDialog } from '../../../ui/hook/use-dialog';
+import { DeleteDeviceDialog } from '../delete-device-dialog/delete-device-dialog';
 export interface DeviceCardProps {
   device: IDevice;
   onSwitchTurn: (payload: TurnSwitchDevice) => void;
@@ -23,7 +25,11 @@ export function DeviceCard(props: DeviceCardProps) {
   const { device, onSwitchTurn, onLightTurn } = props;
   const { user } = useUserStorage();
   const { type, name, state, _id } = device;
-
+  const {
+    close: closeDeleteDialog,
+    isOpen: isOpenDeleteDialog,
+    open: openDeleteDialog,
+  } = useDialog();
   function handleTurn(state: boolean) {
     const payload = {
       deviceId: String(_id),
@@ -64,7 +70,7 @@ export function DeviceCard(props: DeviceCardProps) {
         </div>
         <div className={styles['edit']}>
           <div className={styles['icon']}>
-            <FaTrashCan />
+            <FaTrashCan onClick={openDeleteDialog} />
           </div>
           <div className={styles['icon']}>
             <FaPen />
@@ -81,6 +87,11 @@ export function DeviceCard(props: DeviceCardProps) {
           )}
         </div>
       </div>
+      <DeleteDeviceDialog
+        device={device}
+        close={closeDeleteDialog}
+        isOpen={isOpenDeleteDialog}
+      />
     </Card>
   );
 }

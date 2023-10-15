@@ -1,7 +1,6 @@
 import {
   DEVICE_RESPONSE_CHANNEL,
   DeviceMQTTResponse,
-  DeviceState,
 } from '@mautomate/api-interfaces';
 import { socket } from '../../../../socket';
 import { atom, useAtom } from 'jotai';
@@ -15,7 +14,7 @@ const webSocketAtom = atom<Socket | undefined>(undefined);
 export function useWebSocket() {
   const [webSocket, setWebSocket] = useAtom(webSocketAtom);
   const { id } = useUserStorage();
-  const { setDevices } = useDeviceStorage();
+  const { checkForDeviceInteraction } = useDeviceStorage();
 
   function connect() {
     socket.connect();
@@ -25,24 +24,14 @@ export function useWebSocket() {
     function onSocketConnect() {
       setWebSocket(socket);
     }
-    function onSocketDisconnect(args: any) {
+    function onSocketDisconnect() {
       setWebSocket(undefined);
       socket.disconnect();
     }
 
     function onDeviceResponse(data: DeviceMQTTResponse) {
       const { deviceId, state } = data;
-      setDevices((previousDevices) =>
-        previousDevices.map((device) => {
-          if (String(device._id) === deviceId) {
-            return {
-              ...device,
-              state: state ? DeviceState.On : DeviceState.Off,
-            };
-          }
-          return device;
-        })
-      );
+      checkForDeviceInteraction(deviceId, state);
     }
     socket.on('connect', onSocketConnect);
     socket.on('disconnect', onSocketDisconnect);
@@ -52,7 +41,7 @@ export function useWebSocket() {
       socket.off('disconnect', onSocketDisconnect);
       socket.off(DEVICE_RESPONSE_CHANNEL, onDeviceResponse);
     };
-  }, [id, setDevices, setWebSocket]);
+  }, [checkForDeviceInteraction, id, setWebSocket]);
 
   useEffect(() => {
     if (!socket.connected) {

@@ -12,6 +12,7 @@ import { Button } from '../../../ui/components/button/button';
 import { DeviceTypeToIcon } from '../../../shared/utilities/device-type-parser';
 import { FaTrashCan, FaPen } from 'react-icons/fa6';
 import { useUserStorage } from '../../../user/hooks/use-user-storage';
+import { Loader } from '../../../ui/components/loader/loader';
 export interface DeviceCardProps {
   device: IDevice;
   onSwitchTurn: (payload: TurnSwitchDevice) => void;
@@ -50,13 +51,16 @@ export function DeviceCard(props: DeviceCardProps) {
       <div className={styles['container']}>
         <div className={styles['name']}>{name}</div>
         <div className={styles['type']}>
-          <div
-            className={cn(styles['icon'], {
-              [styles['off']]: state === DeviceState.Off,
-            })}
-          >
-            {DeviceTypeToIcon[type]}
-          </div>
+          {state !== DeviceState.Loading && (
+            <div
+              className={cn(styles['icon'], {
+                [styles['off']]: state === DeviceState.Off,
+              })}
+            >
+              {DeviceTypeToIcon[type]}
+            </div>
+          )}
+          {state === DeviceState.Loading && <Loader />}
         </div>
         <div className={styles['edit']}>
           <div className={styles['icon']}>
@@ -75,7 +79,6 @@ export function DeviceCard(props: DeviceCardProps) {
               Turn off
             </Button>
           )}
-          {/* {loadingInteraction && <Loader />} */}
         </div>
       </div>
     </Card>

@@ -16,15 +16,22 @@ import { Loader } from '../../../ui/components/loader/loader';
 
 export function DevicesScreen() {
   const { getUserDevices, loadingRequest } = useDeviceApi();
-  const { devices } = useDeviceStorage();
+  const { devices, setLoadingDevice } = useDeviceStorage();
   const { webSocket, connect } = useWebSocket();
 
   function onSwitchTurn(payload: TurnSwitchDevice) {
+    onDeviceTurn(payload);
     webSocket?.emit(DEVICE_SWITCH_CHANNEL, payload);
   }
 
   function onLightTurn(payload: TurnLightDevice) {
+    onDeviceTurn(payload);
     webSocket?.emit(DEVICE_LIGHT_CHANNEL, payload);
+  }
+
+  function onDeviceTurn(payload: TurnLightDevice | TurnSwitchDevice) {
+    const { deviceId } = payload;
+    setLoadingDevice(deviceId);
   }
 
   useOnInit(() => {

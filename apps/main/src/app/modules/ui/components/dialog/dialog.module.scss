@@ -1,0 +1,42 @@
+@use 'scrollbar.scss' as *;
+$vertical-padding: 32px;
+$horizontal-padding: 48px;
+
+.dialog {
+  & :global {
+    .MuiPaper-root {
+      background-color: var(--card-bg-color);
+      border-radius: var(--primary-border-radius);
+      border: 1px solid var(--mautomate-bg-color);
+      backdrop-filter: blur(9px);
+      box-shadow: 0 6px 6px rgba(52, 52, 75, 0.55);
+      color: var(--primary-color);
+      font-family: var(--primary-font-family);
+    }
+    .MuiDialogTitle-root {
+      font-family: var(--primary-font-family);
+      font-size: 24px;
+      font-weight: bold;
+      line-height: 32px;
+      text-align: center;
+      padding: $vertical-padding $horizontal-padding;
+    }
+    .MuiDialogContent-root {
+      padding: 8px calc($horizontal-padding / 2) 10px $horizontal-padding;
+      margin-right: calc($horizontal-padding / 2);
+    }
+    .MuiDialogActions-root {
+      padding: $vertical-padding $horizontal-padding;
+    }
+  }
+}
+
+.content {
+  @include scrollbar();
+}
+.close-icon {
+  cursor: pointer;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}

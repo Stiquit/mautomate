@@ -1,3 +1,4 @@
+import { GridLayout } from '../../../shared/components/grid-layout/grid-layout';
 import { MainLayout } from '../../../shared/components/main-layout/main-layout';
 import { Button } from '../../../ui/components/button/button';
 import styles from './routines-screen.module.scss';
@@ -17,7 +18,7 @@ export function RoutinesScreen() {
             </div>
           </div>
         </div>
-        <div className={styles['content']}></div>
+        <GridLayout>{}</GridLayout>
       </div>
     </MainLayout>
   );

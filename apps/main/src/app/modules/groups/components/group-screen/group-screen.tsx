@@ -1,24 +1,14 @@
 import styles from './group-screen.module.scss';
 import { MainLayout } from '../../../shared/components/main-layout/main-layout';
 import { useGroupApi } from '../../hooks/use-group-api';
-import { Loader } from '../../../ui/components/loader/loader';
 import { Button } from '../../../ui/components/button/button';
 import { useGroupStorage } from '../../hooks/use-group-storage';
 import { GroupCard } from '../group-card/group-card';
+import { GridLayout } from '../../../shared/components/grid-layout/grid-layout';
 
 export function GroupScreen() {
   const { loadingRequest } = useGroupApi();
   const { groups } = useGroupStorage();
-
-  if (loadingRequest) {
-    return (
-      <MainLayout>
-        <div className={styles['loader']}>
-          <Loader />
-        </div>
-      </MainLayout>
-    );
-  }
 
   return (
     <MainLayout>
@@ -34,11 +24,11 @@ export function GroupScreen() {
             </div>
           </div>
         </div>
-        <div className={styles['content']}>
+        <GridLayout loading={loadingRequest}>
           {groups.map((group) => (
             <GroupCard group={group} key={`group-${group._id}`} />
           ))}
-        </div>
+        </GridLayout>
       </div>
     </MainLayout>
   );

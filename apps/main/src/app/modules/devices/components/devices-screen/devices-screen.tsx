@@ -12,7 +12,7 @@ import { DeviceCard } from '../device-card/device-card';
 import styles from './devices-screen.module.scss';
 import { useDeviceApi } from '../../hooks/use-device-api';
 import { useOnInit } from '../../../shared/hooks/use-on-init';
-import { Loader } from '../../../ui/components/loader/loader';
+import { GridLayout } from '../../../shared/components/grid-layout/grid-layout';
 
 export function DevicesScreen() {
   const { getUserDevices, loadingRequest } = useDeviceApi();
@@ -52,27 +52,22 @@ export function DevicesScreen() {
             </div>
           </div>
         </div>
-        <div className={styles['content']}>
-          {loadingRequest && <Loader />}
-          {!loadingRequest && (
-            <>
-              {webSocket &&
-                devices.map((device) => (
-                  <DeviceCard
-                    device={device}
-                    key={`device-${device._id}`}
-                    onSwitchTurn={onSwitchTurn}
-                    onLightTurn={onLightTurn}
-                  />
-                ))}
-              {!webSocket && (
-                <div className={styles['connect-btn']}>
-                  <Button onClick={connect}> Connect </Button>
-                </div>
-              )}
-            </>
+        <GridLayout loading={loadingRequest} size="small">
+          {webSocket &&
+            devices.map((device) => (
+              <DeviceCard
+                device={device}
+                key={`device-${device._id}`}
+                onSwitchTurn={onSwitchTurn}
+                onLightTurn={onLightTurn}
+              />
+            ))}
+          {!webSocket && (
+            <div className={styles['connect-btn']}>
+              <Button onClick={connect}> Connect </Button>
+            </div>
           )}
-        </div>
+        </GridLayout>
       </div>
     </MainLayout>
   );

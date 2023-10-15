@@ -1,0 +1,26 @@
+@use 'scrollbar.scss' as *;
+
+.container {
+  padding: 2%;
+  border-radius: var(--primary-border-radius);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  grid-auto-rows: calc(30% - 10px);
+  height: 100%;
+  background-color: var(--secondary-card-bg-color);
+  overflow-y: auto;
+  @include scrollbar(5px, var(--card-bg-color));
+}
+
+.regular {
+  grid-auto-rows: calc(30% - 10px);
+}
+.small {
+  grid-auto-rows: calc(15% - 10px);
+}
+
+.loading {
+  grid-auto-rows: 1fr;
+  align-items: center;
+}

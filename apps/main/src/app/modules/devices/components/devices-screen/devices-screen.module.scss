@@ -1,5 +1,3 @@
-@use 'scrollbar.scss' as *;
-
 .top-content {
   font-weight: 700;
   margin-bottom: 15px;
@@ -32,19 +30,7 @@
   font-family: var(--primary-font-family);
 }
 
-.content {
-  padding: 2%;
-  border-radius: var(--primary-border-radius);
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-  grid-auto-rows: calc(15% - 10px);
-  height: 100%;
-  background-color: var(--secondary-card-bg-color);
-  overflow-y: auto;
-  @include scrollbar(5px, var(--card-bg-color));
-  .connect-btn {
-    display: flex;
-    align-items: center;
-  }
+.connect-btn {
+  display: flex;
+  align-items: center;
 }

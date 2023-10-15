@@ -1,11 +1,10 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { MqttClientService } from '../../mqtt/services/mqtt-client.service';
 import {
   ActionMqttPayload,
   ActionType,
   DeviceMQTTResponse,
   DeviceState,
-  IDevice,
   TurnLightDevice,
   TurnSwitchDevice,
 } from '@mautomate/api-interfaces';

@@ -10,13 +10,15 @@ import {
 } from '@mautomate/api-interfaces';
 import { Button } from '../../../ui/components/button/button';
 import { DeviceTypeToIcon } from '../../../shared/utilities/device-type-parser';
-import { FaTrashCan, FaPen } from 'react-icons/fa6';
+import { FaTrashCan, FaPen, FaPalette } from 'react-icons/fa6';
 import { useUserStorage } from '../../../user/hooks/use-user-storage';
 import { Loader } from '../../../ui/components/loader/loader';
 import { useDialog } from '../../../ui/hook/use-dialog';
 import { DeleteDeviceDialog } from '../delete-device-dialog/delete-device-dialog';
 import { useFormDialog } from '../../../ui/hook/use-form-dialog';
 import { DeviceForm } from '../device-form/device-form';
+import { useColorPickerDialog } from '../../../shared/hooks/use-color-picker-dialog';
+import { ColorPickerDialog } from '../../../shared/components/color-picker-dialog/color-picker-dialog';
 export interface DeviceCardProps {
   device: IDevice;
   onSwitchTurn: (payload: TurnSwitchDevice) => void;
@@ -32,6 +34,13 @@ export function DeviceCard(props: DeviceCardProps) {
     isOpen: isOpenDeleteDialog,
     open: openDeleteDialog,
   } = useDialog();
+  const {
+    closeColorPicker,
+    handleColorChange,
+    color,
+    isOpenColorPicker,
+    openColorPicker,
+  } = useColorPickerDialog();
   const { closeForm, isOpenForm, openEditForm, formType } = useFormDialog();
 
   function handleTurn(state: boolean) {
@@ -45,10 +54,10 @@ export function DeviceCard(props: DeviceCardProps) {
     if (type === DeviceType.Light) {
       return onLightTurn({
         ...payload,
-        red: 0,
-        green: 0,
-        blue: 0,
-        brightness: 0,
+        red: color.r,
+        green: color.g,
+        blue: color.b,
+        brightness: color.g,
         type,
       });
     }
@@ -66,6 +75,13 @@ export function DeviceCard(props: DeviceCardProps) {
               className={cn(styles['icon'], {
                 [styles['off']]: state === DeviceState.Off,
               })}
+              style={
+                state === DeviceState.On && type === DeviceType.Light
+                  ? {
+                      color: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+                    }
+                  : undefined
+              }
             >
               {DeviceTypeToIcon[type]}
             </div>
@@ -73,6 +89,11 @@ export function DeviceCard(props: DeviceCardProps) {
           {state === DeviceState.Loading && <Loader />}
         </div>
         <div className={styles['edit']}>
+          {type === DeviceType.Light && (
+            <div className={styles['icon']}>
+              <FaPalette onClick={openColorPicker} />
+            </div>
+          )}
           <div className={styles['icon']}>
             <FaTrashCan onClick={openDeleteDialog} />
           </div>
@@ -102,6 +123,19 @@ export function DeviceCard(props: DeviceCardProps) {
         type={formType}
         device={device}
       />
+      {type === DeviceType.Light && (
+        <ColorPickerDialog
+          isOpen={isOpenColorPicker}
+          close={() => {
+            closeColorPicker();
+            if (state === DeviceState.On) {
+              handleTurn(true);
+            }
+          }}
+          onChange={handleColorChange}
+          color={color}
+        />
+      )}
     </Card>
   );
 }

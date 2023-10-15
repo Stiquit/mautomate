@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { MQTT_CLIENT } from '../constants/mqtt-client.symbol';
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientProxy, MqttRecordBuilder } from '@nestjs/microservices';
 import {
   ACTIONS_TOPIC,
   ActionMqttPayload,
@@ -16,13 +16,18 @@ export class MqttClientService {
     client.connect();
   }
 
+  buildRecord<T>(payload: T) {
+    const recordBuilder: MqttRecordBuilder<T> = new MqttRecordBuilder<T>();
+    return recordBuilder.setData(payload).setQoS(1).build();
+  }
+
   sendMessage<T, K>(topic: string, payload: K) {
-    return this.client.send<T, K>(topic, payload);
+    const record = this.buildRecord<K>(payload);
+    return this.client.send<T>(topic, record);
   }
 
   sendSwitchPayload(payload: TurnSwitchDevice) {
     return this.sendMessage(DEVICE_SWITCH_TOPIC, payload);
-    //
   }
   sendLightPayload(payload: TurnLightDevice) {
     return this.sendMessage(DEVICE_LIGHT_TOPIC, payload);

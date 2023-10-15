@@ -6,15 +6,23 @@ export interface ButtonProps {
   onClick?: () => void;
   variant?: 'primary' | 'secondary';
   type?: 'button' | 'submit';
+  color?: string;
 }
 
 export function Button(props: ButtonProps) {
-  const { onClick, children, variant = 'primary', type = 'button' } = props;
+  const {
+    onClick,
+    children,
+    variant = 'primary',
+    type = 'button',
+    color,
+  } = props;
   return (
     <button
       className={cn(styles['button'], styles[variant])}
       onClick={onClick}
       type={type}
+      style={color ? { backgroundColor: color } : undefined}
     >
       {children}
     </button>

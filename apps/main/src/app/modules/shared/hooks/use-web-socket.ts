@@ -1,6 +1,10 @@
 import {
+  DEVICE_LIGHT_CHANNEL,
   DEVICE_RESPONSE_CHANNEL,
+  DEVICE_SWITCH_CHANNEL,
   DeviceMQTTResponse,
+  TurnLightDevice,
+  TurnSwitchDevice,
 } from '@mautomate/api-interfaces';
 import { socket } from '../../../../socket';
 import { atom, useAtom } from 'jotai';
@@ -14,7 +18,7 @@ const webSocketAtom = atom<Socket | undefined>(undefined);
 export function useWebSocket() {
   const [webSocket, setWebSocket] = useAtom(webSocketAtom);
   const { id } = useUserStorage();
-  const { checkForDeviceInteraction } = useDeviceStorage();
+  const { checkForDeviceInteraction, setLoadingDevice } = useDeviceStorage();
 
   function connect() {
     socket.connect();
@@ -52,8 +56,25 @@ export function useWebSocket() {
     };
   }, []);
 
+  function onSwitchTurn(payload: TurnSwitchDevice) {
+    onDeviceTurn(payload);
+    webSocket?.emit(DEVICE_SWITCH_CHANNEL, payload);
+  }
+
+  function onLightTurn(payload: TurnLightDevice) {
+    onDeviceTurn(payload);
+    webSocket?.emit(DEVICE_LIGHT_CHANNEL, payload);
+  }
+
+  function onDeviceTurn(payload: TurnLightDevice | TurnSwitchDevice) {
+    const { deviceId } = payload;
+    setLoadingDevice(deviceId);
+  }
+
   return {
     webSocket,
     connect,
+    onLightTurn,
+    onSwitchTurn,
   };
 }

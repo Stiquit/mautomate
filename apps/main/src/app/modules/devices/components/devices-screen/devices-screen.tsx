@@ -1,9 +1,3 @@
-import {
-  DEVICE_LIGHT_CHANNEL,
-  DEVICE_SWITCH_CHANNEL,
-  TurnLightDevice,
-  TurnSwitchDevice,
-} from '@mautomate/api-interfaces';
 import { MainLayout } from '../../../shared/components/main-layout/main-layout';
 import { useWebSocket } from '../../../shared/hooks/use-web-socket';
 import { Button } from '../../../ui/components/button/button';
@@ -18,24 +12,9 @@ import { useFormDialog } from '../../../ui/hook/use-form-dialog';
 
 export function DevicesScreen() {
   const { getUserDevices, loadingRequest } = useDeviceApi();
-  const { devices, setLoadingDevice } = useDeviceStorage();
-  const { webSocket, connect } = useWebSocket();
+  const { devices } = useDeviceStorage();
+  const { webSocket, connect, onSwitchTurn, onLightTurn } = useWebSocket();
   const { closeForm, isOpenForm, openCreateForm, formType } = useFormDialog();
-
-  function onSwitchTurn(payload: TurnSwitchDevice) {
-    onDeviceTurn(payload);
-    webSocket?.emit(DEVICE_SWITCH_CHANNEL, payload);
-  }
-
-  function onLightTurn(payload: TurnLightDevice) {
-    onDeviceTurn(payload);
-    webSocket?.emit(DEVICE_LIGHT_CHANNEL, payload);
-  }
-
-  function onDeviceTurn(payload: TurnLightDevice | TurnSwitchDevice) {
-    const { deviceId } = payload;
-    setLoadingDevice(deviceId);
-  }
 
   useOnInit(() => {
     getUserDevices();

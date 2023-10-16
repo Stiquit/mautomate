@@ -46,9 +46,9 @@ export class UserService {
     await user.save();
     return user.devices;
   }
-  async addGroup(id: string, group: IGroup) {
+  async setGroups(id: string, groups: IGroup[]) {
     const user = await this.findById(id);
-    user.groups.push(group);
+    user.groups = groups;
     await user.save();
     return user.groups;
   }

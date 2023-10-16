@@ -1,6 +1,6 @@
 import { Autocomplete, TextField } from '@mui/material';
 
-import { ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
 import {
   BaseControllerProps,
   FormBaseField,
@@ -10,6 +10,7 @@ import { ControllerProps } from 'react-hook-form';
 export interface SelectFieldProps<T> extends BaseControllerProps<T> {
   size?: 'small' | 'medium';
   label?: string;
+  multiple?: boolean;
   options: T[];
   getOptionLabel: (element: T) => string;
   renderOption?: (element: T) => ReactNode;
@@ -26,6 +27,7 @@ export function FormSelectField<T>(props: SelectFieldProps<T>) {
     options,
     getOptionLabel,
     renderOption,
+    multiple = false,
     isOptionEqualToValue,
   } = props;
 
@@ -37,6 +39,7 @@ export function FormSelectField<T>(props: SelectFieldProps<T>) {
         field.onChange(value);
       }}
       options={options}
+      multiple={multiple}
       autoHighlight
       getOptionLabel={getOptionLabel}
       isOptionEqualToValue={isOptionEqualToValue}

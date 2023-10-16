@@ -5,10 +5,18 @@ import { Button } from '../../../ui/components/button/button';
 import { useGroupStorage } from '../../hooks/use-group-storage';
 import { GroupCard } from '../group-card/group-card';
 import { GridLayout } from '../../../shared/components/grid-layout/grid-layout';
+import { useOnInit } from '../../../shared/hooks/use-on-init';
+import { GroupForm } from '../group-form/group-form';
+import { useFormDialog } from '../../../ui/hook/use-form-dialog';
 
 export function GroupScreen() {
-  const { loadingRequest } = useGroupApi();
+  const { loadingRequest, getUserGroups } = useGroupApi();
   const { groups } = useGroupStorage();
+  const { closeForm, isOpenForm, openCreateForm, formType } = useFormDialog();
+
+  useOnInit(() => {
+    getUserGroups();
+  });
 
   return (
     <MainLayout>
@@ -20,7 +28,7 @@ export function GroupScreen() {
               Add, edit, and delete your groups here
             </div>
             <div className={styles['add-btn']}>
-              <Button>Add</Button>
+              <Button onClick={openCreateForm}>Add</Button>
             </div>
           </div>
         </div>
@@ -30,6 +38,7 @@ export function GroupScreen() {
           ))}
         </GridLayout>
       </div>
+      <GroupForm close={closeForm} isOpen={isOpenForm} type={formType} />
     </MainLayout>
   );
 }

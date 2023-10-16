@@ -5,7 +5,6 @@ import { useCallback } from 'react';
 const groupsAtom = atom<IGroup[]>([]);
 export function useGroupStorage() {
   const [groups, setGroups] = useAtom(groupsAtom);
-
   function removeGroup(groupToDelete: IGroup) {
     setGroups((previousGroups) =>
       previousGroups.filter(

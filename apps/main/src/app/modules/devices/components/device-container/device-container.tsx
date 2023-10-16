@@ -2,6 +2,7 @@ import { DeviceState, IDevice } from '@mautomate/api-interfaces';
 import styles from './device-container.module.scss';
 import cn from 'classnames';
 import { DeviceTypeToIcon } from '../../../shared/utilities/device-type-parser';
+import { Loader } from '../../../ui/components/loader/loader';
 
 export interface DeviceContainerProps {
   device: IDevice;
@@ -18,7 +19,8 @@ export function DeviceContainer(props: DeviceContainerProps) {
           [styles['off']]: state === DeviceState.Off,
         })}
       >
-        {DeviceTypeToIcon[type]}
+        {state === DeviceState.Loading && <Loader />}
+        {state !== DeviceState.Loading && DeviceTypeToIcon[type]}
       </div>
     </div>
   );

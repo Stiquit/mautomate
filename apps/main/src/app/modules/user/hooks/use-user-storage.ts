@@ -32,6 +32,6 @@ export function useUserStorage() {
     updateUserIdentification: useCallback(updateUserIdentification, [
       setUserIdentification,
     ]),
-    id: user._id || '',
+    id: String(user._id) || '',
   };
 }

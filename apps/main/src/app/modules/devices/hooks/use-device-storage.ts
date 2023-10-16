@@ -53,6 +53,10 @@ export function useDeviceStorage() {
     return devices.find((device) => String(device._id) === deviceId);
   }
 
+  function getDevices(ids: string[]) {
+    return devices.filter((device) => ids.includes(String(device._id)));
+  }
+
   return {
     devices,
     mostUsedDevices,
@@ -65,5 +69,6 @@ export function useDeviceStorage() {
     removeDevice: useCallback(removeDevice, [setDevices]),
     getDevice: useCallback(getDevice, [devices]),
     updateDevice: useCallback(updateDevice, [setDevices]),
+    getDevices: useCallback(getDevices, [devices]),
   };
 }

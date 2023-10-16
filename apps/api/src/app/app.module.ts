@@ -10,6 +10,7 @@ import { AuthorizationGuard } from './modules/user/guards/authorization.guard';
 import { JwtService } from '@nestjs/jwt';
 import { MqttModule } from './modules/mqtt/mqtt.module';
 import { GroupModule } from './modules/group/group.module';
+import { SharedModule } from './modules/shared/shared.module';
 
 export const MONGO_URL = process.env.DATABASE_URL;
 
@@ -25,6 +26,7 @@ export const MONGO_URL = process.env.DATABASE_URL;
     RoutineModule,
     MqttModule,
     GroupModule,
+    SharedModule,
   ],
   providers: [
     {

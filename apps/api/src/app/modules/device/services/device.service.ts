@@ -10,15 +10,16 @@ import {
   CreateDeviceDTO,
   DeviceState,
   IDevice,
-  WithId,
 } from '@mautomate/api-interfaces';
 import { UserService } from '../../user/services/user.service';
+import { UtilitiesService } from '../../shared/services/utilites.service';
 
 @Injectable()
 export class DeviceService {
   constructor(
     @InjectModel(DeviceName) private deviceModel: Model<DeviceDocument>,
-    private userService: UserService
+    private userService: UserService,
+    private utilitiesService: UtilitiesService
   ) {}
 
   async findById(id: string): Promise<DeviceDocument> {
@@ -77,15 +78,9 @@ export class DeviceService {
     const userDevices = await this.findUserDevices(userId);
     const device = await this.findById(deviceId);
 
-    if (!this.isInDocumentArray(userDevices, device)) {
+    if (!this.utilitiesService.isInDocumentArray(userDevices, device)) {
       throw new UnauthorizedException('Not owner of device');
     }
-  }
-
-  isInDocumentArray(documentArray: WithId[], documentToCheck: WithId) {
-    return documentArray.some(
-      (document) => String(document._id) === String(documentToCheck._id)
-    );
   }
 
   async findUserDevices(userId: string): Promise<DeviceDocument[]> {

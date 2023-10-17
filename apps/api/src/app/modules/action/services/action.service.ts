@@ -5,7 +5,7 @@ import { Model, Schema } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { UserService } from '../../user/services/user.service';
 import { DeviceService } from '../../device/services/device.service';
-import { ActionType, IAction } from '@mautomate/api-interfaces';
+import { ActionType, IAction, IDevice } from '@mautomate/api-interfaces';
 
 @Injectable()
 export class ActionService {
@@ -25,6 +25,11 @@ export class ActionService {
     const user = await this.userService.findById(userId);
     if (!user) {
       throw new NotFoundException("User not found, action can't be created");
+    }
+    action.user = user;
+
+    if (type === ActionType.Routine) {
+      return action.save();
     }
 
     const device = await this.deviceService.findById(deviceId);

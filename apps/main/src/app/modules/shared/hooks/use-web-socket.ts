@@ -3,6 +3,7 @@ import {
   DEVICE_RESPONSE_CHANNEL,
   DEVICE_SWITCH_CHANNEL,
   DeviceMQTTResponse,
+  ROUTINES_CHANNEL,
   TurnLightDevice,
   TurnSwitchDevice,
 } from '@mautomate/api-interfaces';
@@ -71,10 +72,18 @@ export function useWebSocket() {
     setLoadingDevice(deviceId);
   }
 
+  function onRoutineActivate(routineId: string) {
+    webSocket?.emit(ROUTINES_CHANNEL, {
+      userId: id,
+      routineId,
+    });
+  }
+
   return {
     webSocket,
     connect,
     onLightTurn,
     onSwitchTurn,
+    onRoutineActivate,
   };
 }

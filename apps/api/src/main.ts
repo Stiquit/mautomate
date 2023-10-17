@@ -26,7 +26,6 @@ async function bootstrap() {
   });
   await app.startAllMicroservices();
   await app.listen(port);
-  mongoose.set('debug', true);
   Logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
   );

@@ -1,4 +1,4 @@
 export interface BaseDeviceAction {
   deviceId: string;
-  state: number;
+  state: boolean;
 }

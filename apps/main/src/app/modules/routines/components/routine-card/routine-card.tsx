@@ -10,11 +10,12 @@ import { DeleteRoutineDialog } from '../delete-routine/delete-routine';
 
 export interface RoutineCardProps {
   routine: IRoutine;
+  onRoutineActivate?: (id: string) => void;
   displayActions?: boolean;
 }
 
 export function RoutineCard(props: RoutineCardProps) {
-  const { routine, displayActions = true } = props;
+  const { routine, displayActions = true, onRoutineActivate } = props;
   const { actions, name, recurrence, _id } = routine;
   const {
     isOpen: isOpenDeleteGroup,
@@ -29,7 +30,7 @@ export function RoutineCard(props: RoutineCardProps) {
           {construe.toString(recurrence)}
         </div>
         <div className={styles['routine-actions']}>
-          {[...actions, ...actions].map((action, i) => (
+          {actions.map((action, i) => (
             <div
               className={styles['action']}
               key={`routine-${_id}-action-${i}`}
@@ -42,7 +43,13 @@ export function RoutineCard(props: RoutineCardProps) {
         {displayActions && (
           <>
             <div className={styles['buttons']}>
-              <Button>Initiate</Button>
+              <Button
+                onClick={() => {
+                  onRoutineActivate?.(String(_id));
+                }}
+              >
+                Initiate
+              </Button>
             </div>
             <div className={styles['actions']}>
               <div className={styles['action']}>

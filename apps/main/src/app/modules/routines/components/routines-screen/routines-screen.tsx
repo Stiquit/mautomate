@@ -1,6 +1,7 @@
 import { GridLayout } from '../../../shared/components/grid-layout/grid-layout';
 import { MainLayout } from '../../../shared/components/main-layout/main-layout';
 import { useOnInit } from '../../../shared/hooks/use-on-init';
+import { useWebSocket } from '../../../shared/hooks/use-web-socket';
 import { Button } from '../../../ui/components/button/button';
 import { useRoutineApi } from '../../hooks/use-routine-api';
 import { useRoutineStorage } from '../../hooks/use-routine-storage';
@@ -10,6 +11,7 @@ import styles from './routines-screen.module.scss';
 export function RoutinesScreen() {
   const { loadingRequest, getUserRoutines } = useRoutineApi();
   const { routines } = useRoutineStorage();
+  const { onRoutineActivate } = useWebSocket();
 
   useOnInit(() => {
     getUserRoutines();
@@ -31,7 +33,11 @@ export function RoutinesScreen() {
         </div>
         <GridLayout loading={loadingRequest} size="big">
           {routines.map((routine) => (
-            <RoutineCard routine={routine} key={`routine-${routine._id}`} />
+            <RoutineCard
+              routine={routine}
+              key={`routine-${routine._id}`}
+              onRoutineActivate={onRoutineActivate}
+            />
           ))}
         </GridLayout>
       </div>

@@ -3,6 +3,7 @@ import { Card } from '../../../ui/components/card/card';
 import { Groups } from '../groups/groups';
 import { LatestActions } from '../latest-actions/latest-actions';
 import { MostUsedDevices } from '../most-used-devices/most-used-devices';
+import { Routines } from '../routines/routines';
 import styles from './home-screen.module.scss';
 
 export function HomeScreen() {
@@ -24,7 +25,7 @@ export function HomeScreen() {
           </div>
           <div className={styles['routines']}>
             <Card>
-              <div>Routines container</div>
+              <Routines />
             </Card>
           </div>
           <div className={styles['groups']}>

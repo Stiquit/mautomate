@@ -1,6 +1,5 @@
 import styles from './nav-bar.module.scss';
 import MautomateLogo from '../../../../../assets/mautomate_transparent.png';
-import { useState } from 'react';
 import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import {
   FaHouse,
@@ -12,9 +11,10 @@ import {
 import { useRouter } from '../../../routing/hooks/use-router';
 import cn from 'classnames';
 import { useUserStorage } from '../../../user/hooks/use-user-storage';
+import { useNavBar } from '../../hooks/use-nav-bar';
 
 export function NavBar() {
-  const [collapsed, setCollapsed] = useState(true);
+  const { collapsed, setCollapsed } = useNavBar();
   const {
     goToHome,
     goToDevices,

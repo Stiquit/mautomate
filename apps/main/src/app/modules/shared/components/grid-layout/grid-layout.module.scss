@@ -2,22 +2,29 @@
 
 .container {
   padding: 2%;
+  margin: 0 auto;
   border-radius: var(--primary-border-radius);
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 100%;
   gap: 10px;
-  grid-auto-rows: calc(30% - 10px);
   height: 100%;
+  width: 98%;
   background-color: var(--secondary-card-bg-color);
   overflow-y: auto;
+  overflow-x: hidden;
   @include scrollbar(5px, var(--card-bg-color));
 }
 
 .regular {
   grid-auto-rows: calc(30% - 10px);
 }
+
 .small {
   grid-auto-rows: calc(15% - 10px);
+}
+
+.big {
+  grid-auto-rows: calc(45% - 10px);
 }
 
 .loading {

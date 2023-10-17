@@ -1,19 +1,18 @@
-.device {
-  padding: 5px 10px;
+.action {
+  padding: 10px 25px;
   border-radius: var(--primary-border-radius);
   width: 100%;
+  min-width: 250px;
   background-color: var(--secondary-card-bg-color);
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
   .icon {
     font-size: 24px;
   }
-  .off {
-    opacity: 0.4;
-  }
-  .name {
+  .type {
     white-space: nowrap;
   }
 }

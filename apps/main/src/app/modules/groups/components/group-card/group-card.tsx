@@ -71,7 +71,9 @@ export function GroupCard(props: GroupCardProps) {
         <div className={styles['name']}>{name}</div>
         <div className={styles['devices']}>
           {groupDevices.map((device) => (
-            <DeviceContainer device={device} key={`device-${device._id}`} />
+            <div className={styles['device']} key={`device-${device._id}`}>
+              <DeviceContainer device={device} />
+            </div>
           ))}
         </div>
 
@@ -85,7 +87,6 @@ export function GroupCard(props: GroupCardProps) {
               >
                 Turn Off
               </Button>
-              <Button>View</Button>
             </div>
             <div className={styles['actions']}>
               <div className={styles['action']}>

@@ -19,6 +19,7 @@ import { useFormDialog } from '../../../ui/hook/use-form-dialog';
 import { DeviceForm } from '../device-form/device-form';
 import { useColorPickerDialog } from '../../../shared/hooks/use-color-picker-dialog';
 import { ColorPickerDialog } from '../../../shared/components/color-picker-dialog/color-picker-dialog';
+import { rgbaColorToString } from '../../../shared/utilities/color-parser';
 export interface DeviceCardProps {
   device: IDevice;
   onSwitchTurn: (payload: TurnSwitchDevice) => void;
@@ -78,7 +79,7 @@ export function DeviceCard(props: DeviceCardProps) {
               style={
                 state === DeviceState.On && type === DeviceType.Light
                   ? {
-                      color: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+                      color: rgbaColorToString(color),
                     }
                   : undefined
               }

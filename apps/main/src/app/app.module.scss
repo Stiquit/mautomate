@@ -2,6 +2,7 @@
   width: 100%;
   height: 100%;
   max-height: 100vh;
+  max-width: 100vw;
   overflow-y: hidden;
   margin: 0;
   background-color: var(--mautomate-bg-color);
@@ -10,9 +11,13 @@
   display: flex;
   .content {
     padding: 2%;
-    width: 100%;
+    margin: 0 auto;
+    width: calc(100% - 250px);
     & > div {
       height: 100%;
     }
+  }
+  .collapsed {
+    width: calc(100% - 80px);
   }
 }

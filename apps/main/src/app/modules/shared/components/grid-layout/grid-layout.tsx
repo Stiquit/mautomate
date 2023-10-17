@@ -4,7 +4,7 @@ import cn from 'classnames';
 
 export interface GridLayoutProps {
   children: React.ReactNode;
-  size?: 'regular' | 'small';
+  size?: 'regular' | 'small' | 'big';
   loading?: boolean;
 }
 export function GridLayout(props: GridLayoutProps) {

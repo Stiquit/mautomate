@@ -1,114 +1,117 @@
-import { CreateGroupDto, IGroup } from '@mautomate/api-interfaces';
-import { useAccessToken } from '../../auth/hooks/use-access-token';
-import axios from 'axios';
 import { atom, useAtom } from 'jotai';
+import { useRoutineStorage } from './use-routine-storage';
+import { useAccessToken } from '../../auth/hooks/use-access-token';
 import { useRequestError } from '../../error-handler/hooks/use-request-error';
-import { useGroupStorage } from './use-group-storage';
+import { CreateRoutineDto, IRoutine } from '@mautomate/api-interfaces';
+import axios from 'axios';
 import { useCallback } from 'react';
 
 const loadingRequestAtom = atom(false);
-export function useGroupApi() {
+export function useRoutineApi() {
   const { getToken } = useAccessToken();
-  const { setGroups, removeGroup, updateGroup } = useGroupStorage();
-  const [loadingRequest, setLoadingRequest] = useAtom(loadingRequestAtom);
+  const { setRoutines, updateRoutine, removeRoutine } = useRoutineStorage();
   const { handleError } = useRequestError();
 
-  const getUserGroups = async () => {
-    setLoadingRequest(true);
-    try {
-      const response = await axios.get<IGroup[]>('api/group/user', {
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-        },
-      });
-      const groups = response.data;
-      setGroups(groups);
-    } catch (err) {
-      handleError(err);
-      console.error(err);
-    } finally {
-      setLoadingRequest(false);
-    }
-  };
+  const [loadingRequest, setLoadingRequest] = useAtom(loadingRequestAtom);
 
-  const createGroup = async (data: CreateGroupDto) => {
-    setLoadingRequest(true);
-    try {
-      const response = await axios.post<IGroup[]>('api/group', data, {
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-        },
-      });
-      const groups = response.data;
-      setGroups(groups);
-    } catch (err) {
-      handleError(err);
-      console.error(err);
-    } finally {
-      setLoadingRequest(false);
-    }
-  };
+  //
 
-  const deleteGroup = async (id: string) => {
+  async function getUserRoutines() {
     setLoadingRequest(true);
     try {
-      const response = await axios.delete<IGroup>(`api/group/${id}`, {
+      const response = await axios.get<IRoutine[]>('api/routine/user', {
         headers: {
           Authorization: `Bearer ${getToken()}`,
         },
       });
-      const deletedGroup = response.data;
-      removeGroup(deletedGroup);
+      const routines = response.data;
+      setRoutines(routines);
     } catch (err) {
       handleError(err);
       console.error(err);
     } finally {
       setLoadingRequest(false);
     }
-  };
+  }
 
-  const updateGroupInformation = async (id: string, data: CreateGroupDto) => {
+  async function createRoutine(data: CreateRoutineDto) {
     setLoadingRequest(true);
     try {
-      const response = await axios.put<IGroup>(`api/group/${id}`, data, {
+      const response = await axios.post<IRoutine[]>('api/routine', data, {
         headers: {
           Authorization: `Bearer ${getToken()}`,
         },
       });
-      const updatedGroup = response.data;
-      updateGroup(updatedGroup);
+      const routines = response.data;
+      setRoutines(routines);
     } catch (err) {
       handleError(err);
       console.error(err);
     } finally {
       setLoadingRequest(false);
     }
-  };
+  }
+
+  async function deleteRoutine(id: string) {
+    setLoadingRequest(true);
+    try {
+      const response = await axios.delete<IRoutine>(`api/routine/${id}`, {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      });
+      const deletedRoutine = response.data;
+      removeRoutine(deletedRoutine);
+    } catch (err) {
+      handleError(err);
+      console.error(err);
+    } finally {
+      setLoadingRequest(false);
+    }
+  }
+
+  async function updateRoutineInformation(id: string, data: CreateRoutineDto) {
+    setLoadingRequest(true);
+    try {
+      const response = await axios.put<IRoutine>(`api/routine/${id}`, data, {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      });
+      const updatedRoutine = response.data;
+      updateRoutine(updatedRoutine);
+    } catch (err) {
+      handleError(err);
+      console.error(err);
+    } finally {
+      setLoadingRequest(false);
+    }
+  }
 
   return {
-    getUserGroups: useCallback(getUserGroups, [
+    getUserRoutines: useCallback(getUserRoutines, [
       getToken,
       handleError,
-      setGroups,
+      setLoadingRequest,
+      setRoutines,
+    ]),
+    createRoutine: useCallback(createRoutine, [
+      getToken,
+      handleError,
+      setLoadingRequest,
+      setRoutines,
+    ]),
+    deleteRoutine: useCallback(deleteRoutine, [
+      getToken,
+      handleError,
+      removeRoutine,
       setLoadingRequest,
     ]),
-    updateGroupInformation: useCallback(updateGroupInformation, [
+    updateRoutineInformation: useCallback(updateRoutineInformation, [
       getToken,
       handleError,
       setLoadingRequest,
-      updateGroup,
-    ]),
-    deleteGroup: useCallback(deleteGroup, [
-      getToken,
-      handleError,
-      removeGroup,
-      setLoadingRequest,
-    ]),
-    createGroup: useCallback(createGroup, [
-      getToken,
-      handleError,
-      setGroups,
-      setLoadingRequest,
+      updateRoutine,
     ]),
     loadingRequest,
   };

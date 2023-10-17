@@ -32,7 +32,7 @@ export function MostUsedDevices() {
         ))}
       </div>
       <div className={styles['btn']}>
-        <Button onClick={goToDevices}>go to devices</Button>
+        <Button onClick={goToDevices}>devices</Button>
       </div>
     </div>
   );

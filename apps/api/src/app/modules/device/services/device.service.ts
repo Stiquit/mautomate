@@ -53,7 +53,7 @@ export class DeviceService {
     return await this.deviceModel.findByIdAndDelete(id);
   }
 
-  async addDevices(userId: string, newDevices: CreateDeviceDTO[]) {
+  async addDevicesToUser(userId: string, newDevices: CreateDeviceDTO[]) {
     const devices = await this.create(newDevices);
     const userDevices = await this.findUserDevices(userId);
     userDevices.push(...devices);
@@ -85,8 +85,8 @@ export class DeviceService {
 
   async findUserDevices(userId: string): Promise<DeviceDocument[]> {
     const user = await this.userService.findById(userId);
-    const deviceIds = user.devices.map((device) =>
-      String((device as IDevice)._id)
+    const deviceIds = this.utilitiesService.parseDocumentToIdArray(
+      user.devices as IDevice[]
     );
     return await this.findByIds(deviceIds);
   }

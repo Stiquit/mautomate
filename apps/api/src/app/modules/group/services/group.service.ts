@@ -40,7 +40,7 @@ export class GroupService {
     return group;
   }
 
-  async findByIds(ids: string[]) {
+  async findByIds(ids: string[]): Promise<IGroup[]> {
     return await this.groupModel
       .find({
         _id: {
@@ -56,8 +56,8 @@ export class GroupService {
 
   async findUserGroups(userId: string) {
     const user = await this.userService.findById(userId);
-    const groupsIds = (user.groups as IGroup[]).map((group) =>
-      String(group._id)
+    const groupsIds = this.utilitiesService.parseDocumentToIdArray(
+      user.groups as IGroup[]
     );
 
     return this.findByIds(groupsIds);
@@ -73,8 +73,9 @@ export class GroupService {
   async deleteById(id: string, userId: string) {
     await this.validateGroupOwnership(userId, id);
     const userGroups = await this.findUserGroups(userId);
-    const filteredGroups = userGroups.filter(
-      (group) => String(group._id) !== id
+    const filteredGroups = this.utilitiesService.removeFromDocumentArray(
+      id,
+      userGroups
     );
     await this.userService.setGroups(userId, filteredGroups);
     return await this.groupModel.findByIdAndDelete(id);
@@ -91,7 +92,7 @@ export class GroupService {
       );
     }
 
-    const updatedGroup = await this.groupModel.findByIdAndUpdate(
+    const updatedGroup: IGroup = await this.groupModel.findByIdAndUpdate(
       id,
       {
         name: body.name,
@@ -102,8 +103,9 @@ export class GroupService {
       }
     );
     const userGroups = await this.findUserGroups(userId);
-    const updatedGroups = userGroups.map((group) =>
-      String(group._id) === id ? updatedGroup : group
+    const updatedGroups = this.utilitiesService.updateDocumentInArray(
+      updatedGroup,
+      userGroups
     );
     await this.userService.setGroups(userId, updatedGroups);
     return updatedGroup;

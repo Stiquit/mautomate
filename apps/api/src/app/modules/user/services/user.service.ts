@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UserName, User, UserDocument } from '../schemas/user.schema';
-import { IDevice, IGroup } from '@mautomate/api-interfaces';
+import { IDevice, IGroup, IRoutine } from '@mautomate/api-interfaces';
 
 @Injectable()
 export class UserService {
@@ -51,5 +51,12 @@ export class UserService {
     user.groups = groups;
     await user.save();
     return user.groups;
+  }
+
+  async setRoutines(id: string, routines: IRoutine[]) {
+    const user = await this.findById(id);
+    user.routines = routines;
+    await user.save();
+    return user.routines;
   }
 }

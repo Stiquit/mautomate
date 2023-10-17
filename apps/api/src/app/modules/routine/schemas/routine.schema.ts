@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
-import { Action, ActionSchema } from '../../action/schemas/action.schema';
+import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
+import { RoutineAction } from '@mautomate/api-interfaces';
 
 @Schema()
 export class Routine {
@@ -8,10 +8,10 @@ export class Routine {
   name: string;
 
   @Prop()
-  repeat: string;
+  recurrence: string;
 
-  @Prop({ type: [ActionSchema] })
-  actions: Action[];
+  @Prop({ type: [MongooseSchema.Types.Mixed] })
+  actions: RoutineAction[];
 }
 
 export const RoutineName = 'Routine';

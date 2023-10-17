@@ -6,7 +6,6 @@ import { AuthService } from './services/auth.service';
 import { JwtService, JwtModule } from '@nestjs/jwt';
 import { TokenGeneratorService } from './services/token-generator.service';
 import { AuthController } from './controllers/auth.controller';
-import { RoutineModule } from '../routine/routine.module';
 import { UserController } from './controllers/user.controller';
 
 @Module({
@@ -18,7 +17,6 @@ import { UserController } from './controllers/user.controller';
         expiresIn: process.env.JWT_EXPIRE_TIME,
       },
     }),
-    RoutineModule,
   ],
   providers: [UserService, AuthService, JwtService, TokenGeneratorService],
   exports: [UserService],

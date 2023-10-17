@@ -26,7 +26,7 @@ export class DeviceController {
   ) {
     const { id } = payload;
     const { newDevices } = body;
-    return await this.deviceService.addDevices(id, newDevices);
+    return await this.deviceService.addDevicesToUser(id, newDevices);
   }
 
   @Get('user')

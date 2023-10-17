@@ -1,8 +1,8 @@
-import { IAction } from '../actions/action.interface';
 import { WithId } from '../shared/with-id.interface';
+import { RoutineAction } from './routine-action';
 
 export interface IRoutine extends WithId {
   name: string;
-  repeat: string;
-  actions: IAction[];
+  recurrence: string;
+  actions: RoutineAction[];
 }

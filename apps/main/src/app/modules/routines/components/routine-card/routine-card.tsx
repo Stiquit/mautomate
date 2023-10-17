@@ -5,6 +5,8 @@ import { Card } from '../../../ui/components/card/card';
 import { FaPen, FaTrashCan } from 'react-icons/fa6';
 import construe from 'cronstrue';
 import { RoutineActionContainer } from '../routine-action-container/routine-action-container';
+import { useDialog } from '../../../ui/hook/use-dialog';
+import { DeleteRoutineDialog } from '../delete-routine/delete-routine';
 
 export interface RoutineCardProps {
   routine: IRoutine;
@@ -14,7 +16,11 @@ export interface RoutineCardProps {
 export function RoutineCard(props: RoutineCardProps) {
   const { routine, displayActions = true } = props;
   const { actions, name, recurrence, _id } = routine;
-
+  const {
+    isOpen: isOpenDeleteGroup,
+    close: closeDeleteGroup,
+    open: openDeleteGroup,
+  } = useDialog();
   return (
     <Card>
       <div className={styles['container']}>
@@ -40,7 +46,7 @@ export function RoutineCard(props: RoutineCardProps) {
             </div>
             <div className={styles['actions']}>
               <div className={styles['action']}>
-                <FaTrashCan />
+                <FaTrashCan onClick={openDeleteGroup} />
               </div>
               <div className={styles['action']}>
                 <FaPen />
@@ -49,6 +55,11 @@ export function RoutineCard(props: RoutineCardProps) {
           </>
         )}
       </div>
+      <DeleteRoutineDialog
+        close={closeDeleteGroup}
+        routine={routine}
+        isOpen={isOpenDeleteGroup}
+      />
     </Card>
   );
 }

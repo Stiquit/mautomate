@@ -1,7 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { MQTT_CLIENT } from './constants/mqtt-client.symbol';
-import { MQTT_PASSWORD, MQTT_URL, MQTT_USER } from '@mautomate/api-interfaces';
+import {
+  MQTT_MODULE_CLIENT,
+  MQTT_PASSWORD,
+  MQTT_URL,
+  MQTT_USER,
+} from '@mautomate/api-interfaces';
 import { MqttClientService } from './services/mqtt-client.service';
 import { DeviceMqttController } from './controllers/mqtt-server.controller';
 
@@ -15,7 +20,7 @@ import { DeviceMqttController } from './controllers/mqtt-server.controller';
           url: MQTT_URL,
           password: MQTT_PASSWORD,
           username: MQTT_USER,
-          clientId: 'MAUTOMATE_BACKEND_CLIENT',
+          clientId: MQTT_MODULE_CLIENT,
         },
       },
     ]),

@@ -11,14 +11,17 @@ import { JwtService } from '@nestjs/jwt';
 import { MqttModule } from './modules/mqtt/mqtt.module';
 import { GroupModule } from './modules/group/group.module';
 import { SharedModule } from './modules/shared/shared.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 export const MONGO_URL = process.env.DATABASE_URL;
 
 @Module({
   imports: [
-    MongooseModule.forRoot(MONGO_URL, {
-      authSource: 'mautomate',
-      authMechanism: 'DEFAULT',
+    MongooseModule.forRoot(MONGO_URL),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'main'),
+      exclude: ['/api'],
     }),
     UserModule,
     DeviceModule,

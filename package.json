@@ -2,7 +2,10 @@
   "name": "@mautomate/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start": "node dist/apps/api/main",
+    "build": "npx nx run-many -t=build -p api-interfaces api main --skip-nx-cache --configuration=production"
+  },
   "private": true,
   "devDependencies": {
     "@babel/core": "^7.14.5",
@@ -51,6 +54,7 @@
     "@nestjs/platform-express": "^10.0.2",
     "@nestjs/platform-socket.io": "^10.2.7",
     "@nestjs/schedule": "^3.0.4",
+    "@nestjs/serve-static": "^4.0.0",
     "@nestjs/typeorm": "^10.0.0",
     "@nestjs/websockets": "^10.2.7",
     "@swc/helpers": "~0.5.0",

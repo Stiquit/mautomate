@@ -6,6 +6,7 @@ import { Loader } from '../../../ui/components/loader/loader';
 import { Button } from '../../../ui/components/button/button';
 import { useRouter } from '../../../routing/hooks/use-router';
 import { DeviceContainer } from '../../../devices/components/device-container/device-container';
+import { EmptyScreen } from '../../../shared/components/empty-screen/empty-screen';
 
 export function MostUsedDevices() {
   const { getMostUsedDevices, loadingRequest } = useActionApi();
@@ -27,9 +28,13 @@ export function MostUsedDevices() {
     <div className={styles['container']}>
       <div className={styles['title']}>Frequently used devices</div>
       <div className={styles['devices']}>
-        {mostUsedDevices.map((device) => (
-          <DeviceContainer device={device} key={`most-used-${device._id}`} />
-        ))}
+        {mostUsedDevices.length > 0 &&
+          mostUsedDevices.map((device) => (
+            <DeviceContainer device={device} key={`most-used-${device._id}`} />
+          ))}
+        {mostUsedDevices.length === 0 && (
+          <EmptyScreen message="You have not used any devices yet" />
+        )}
       </div>
       <div className={styles['btn']}>
         <Button onClick={goToDevices}>devices</Button>

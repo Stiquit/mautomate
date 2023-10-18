@@ -8,6 +8,7 @@ import { GridLayout } from '../../../shared/components/grid-layout/grid-layout';
 import { useOnInit } from '../../../shared/hooks/use-on-init';
 import { GroupForm } from '../group-form/group-form';
 import { useFormDialog } from '../../../ui/hook/use-form-dialog';
+import { EmptyScreen } from '../../../shared/components/empty-screen/empty-screen';
 
 export function GroupScreen() {
   const { loadingRequest, getUserGroups } = useGroupApi();
@@ -33,9 +34,13 @@ export function GroupScreen() {
           </div>
         </div>
         <GridLayout loading={loadingRequest}>
-          {groups.map((group) => (
-            <GroupCard group={group} key={`group-${group._id}`} />
-          ))}
+          {groups.length > 0 &&
+            groups.map((group) => (
+              <GroupCard group={group} key={`group-${group._id}`} />
+            ))}
+          {groups.length === 0 && (
+            <EmptyScreen message="You have no groups, try creating one" />
+          )}
         </GridLayout>
       </div>
       <GroupForm close={closeForm} isOpen={isOpenForm} type={formType} />

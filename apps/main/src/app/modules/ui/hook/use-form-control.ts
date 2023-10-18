@@ -6,9 +6,10 @@ export function useFormControl<T extends FieldValues>(
   const formMethods = useForm<T>({
     defaultValues,
   });
-  const { handleSubmit, control, getValues } = formMethods;
+  const { handleSubmit, control, getValues, watch } = formMethods;
 
   return {
+    watch,
     handleSubmit,
     control,
     getValues,

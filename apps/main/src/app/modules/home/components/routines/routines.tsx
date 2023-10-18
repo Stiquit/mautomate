@@ -6,6 +6,7 @@ import { Loader } from '../../../ui/components/loader/loader';
 import { useRouter } from '../../../routing/hooks/use-router';
 import { Button } from '../../../ui/components/button/button';
 import { RoutineCard } from '../../../routines/components/routine-card/routine-card';
+import { EmptyScreen } from '../../../shared/components/empty-screen/empty-screen';
 
 export function Routines() {
   const { getUserRoutines, loadingRequest } = useRoutineApi();
@@ -27,11 +28,15 @@ export function Routines() {
     <div className={styles['container']}>
       <div className={styles['title']}>Your routines</div>
       <div className={styles['routines']}>
-        {routines.slice(0, 3).map((routine) => (
-          <div className={styles['routine']} key={String(routine._id)}>
-            <RoutineCard routine={routine} displayActions={false} />
-          </div>
-        ))}
+        {routines.length > 0 &&
+          routines.slice(0, 3).map((routine) => (
+            <div className={styles['routine']} key={String(routine._id)}>
+              <RoutineCard routine={routine} displayActions={false} />
+            </div>
+          ))}
+        {routines.length === 0 && (
+          <EmptyScreen message="You have no routines" />
+        )}
       </div>
       <div className={styles['btn']}>
         <Button onClick={goToRoutines}>routines</Button>

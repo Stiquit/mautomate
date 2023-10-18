@@ -9,6 +9,7 @@ import { useOnInit } from '../../../shared/hooks/use-on-init';
 import { GridLayout } from '../../../shared/components/grid-layout/grid-layout';
 import { DeviceForm } from '../device-form/device-form';
 import { useFormDialog } from '../../../ui/hook/use-form-dialog';
+import { EmptyScreen } from '../../../shared/components/empty-screen/empty-screen';
 
 export function DevicesScreen() {
   const { getUserDevices, loadingRequest } = useDeviceApi();
@@ -35,19 +36,26 @@ export function DevicesScreen() {
           </div>
         </div>
         <GridLayout loading={loadingRequest} size="small">
-          {webSocket &&
-            devices.map((device) => (
-              <DeviceCard
-                device={device}
-                key={`device-${device._id}`}
-                onSwitchTurn={onSwitchTurn}
-                onLightTurn={onLightTurn}
-              />
-            ))}
-          {!webSocket && (
-            <div className={styles['connect-btn']}>
-              <Button onClick={connect}> Connect </Button>
-            </div>
+          {devices.length > 0 && (
+            <>
+              {webSocket &&
+                devices.map((device) => (
+                  <DeviceCard
+                    device={device}
+                    key={`device-${device._id}`}
+                    onSwitchTurn={onSwitchTurn}
+                    onLightTurn={onLightTurn}
+                  />
+                ))}
+              {!webSocket && (
+                <div className={styles['connect-btn']}>
+                  <Button onClick={connect}> Connect </Button>
+                </div>
+              )}
+            </>
+          )}
+          {devices.length === 0 && (
+            <EmptyScreen message="You have no devices, try creating one" />
           )}
         </GridLayout>
       </div>

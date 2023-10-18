@@ -1,0 +1,62 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  gap: 25px;
+  & :global {
+    .MuiAutocomplete-root {
+      width: 95%;
+      input,
+      label {
+        font-family: var(--primary-font-family);
+        color: var(--primary-color);
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+    .MuiChip-label {
+      font-family: var(--primary-font-family);
+      color: var(--primary-color);
+    }
+
+    .cron_builder {
+      font-family: var(--primary-font-family);
+
+      background-color: transparent;
+      & .nav li a {
+        color: var(--primary-color);
+      }
+      & .nav-link.active {
+        color: var(--secondary-bg-color);
+      }
+
+      & .well {
+        font-weight: 500;
+        color: #000;
+      }
+    }
+  }
+}
+
+.input {
+  width: 95%;
+  margin: 0 auto;
+  input,
+  label {
+    font-family: var(--primary-font-family);
+    color: var(--primary-color);
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 15px;
+}

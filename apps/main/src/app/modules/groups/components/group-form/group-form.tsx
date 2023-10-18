@@ -78,7 +78,9 @@ export function GroupForm(props: GroupFormProps) {
             <FormSelectField
               name="devices"
               label="devices"
-              validators={[requiredValidator('Group must have a type')]}
+              validators={[
+                requiredValidator('Group must have at least one device'),
+              ]}
               options={devices}
               control={control}
               isOptionEqualToValue={(optionA, optionB) =>

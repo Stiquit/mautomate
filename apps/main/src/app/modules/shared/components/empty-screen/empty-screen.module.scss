@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .message {
+    color: var(--secondary-color);
+    margin: 15px 0 25px;
+    font-size: 26px;
+    font-family: var(--secondary-font-family);
+  }
+}

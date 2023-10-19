@@ -38,10 +38,12 @@ export class RoutineSchedulerService implements OnModuleInit {
     const { recurrence, name, actions, _id } = routine;
     const routineName = `${String(_id)}-${name}`;
 
-    const job = new CronJob(
-      recurrence,
-      this.routineIotService.handleRoutineActions(userId, actions)
-    );
+    const job = new CronJob({
+      cronTime: recurrence,
+      onTick: this.routineIotService.handleRoutineActions(userId, actions),
+      timeZone: 'America/Bogota',
+    });
+
     this.schedulerRegistry.addCronJob(routineName, job);
     this.logger.log(
       `Create routine : ${routineName} ${construe.toString(recurrence)}`

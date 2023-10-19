@@ -18,7 +18,9 @@ export const MONGO_URL = process.env.DATABASE_URL;
 
 @Module({
   imports: [
-    MongooseModule.forRoot(MONGO_URL),
+    MongooseModule.forRoot(MONGO_URL, {
+      dbName: 'mautomate',
+    }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'main'),
       exclude: ['/api'],

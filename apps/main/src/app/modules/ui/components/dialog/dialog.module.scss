@@ -22,6 +22,7 @@ $horizontal-padding: 48px;
       line-height: 32px;
       text-align: center;
       padding: $vertical-padding $horizontal-padding;
+      color: var(--secondary-color);
     }
     .MuiDialogContent-root {
       padding: 8px calc($horizontal-padding / 2) 10px $horizontal-padding;

@@ -1,21 +1,20 @@
+import { useRouter } from '../../../routing/hooks/use-router';
 import { EmptyScreen } from '../../../shared/components/empty-screen/empty-screen';
 import { GridLayout } from '../../../shared/components/grid-layout/grid-layout';
 import { MainLayout } from '../../../shared/components/main-layout/main-layout';
 import { useOnInit } from '../../../shared/hooks/use-on-init';
 import { useWebSocket } from '../../../shared/hooks/use-web-socket';
 import { Button } from '../../../ui/components/button/button';
-import { useFormDialog } from '../../../ui/hook/use-form-dialog';
 import { useRoutineApi } from '../../hooks/use-routine-api';
 import { useRoutineStorage } from '../../hooks/use-routine-storage';
 import { RoutineCard } from '../routine-card/routine-card';
-import { RoutineForm } from '../routine-form/routine-form';
 import styles from './routines-screen.module.scss';
 
 export function RoutinesScreen() {
   const { loadingRequest, getUserRoutines } = useRoutineApi();
   const { routines } = useRoutineStorage();
+  const { goToAddRoutine } = useRouter();
   const { onRoutineActivate } = useWebSocket();
-  const { closeForm, isOpenForm, openCreateForm, formType } = useFormDialog();
 
   useOnInit(() => {
     getUserRoutines();
@@ -31,7 +30,7 @@ export function RoutinesScreen() {
               Add, edit, and delete your routines here
             </div>
             <div className={styles['add-btn']}>
-              <Button onClick={openCreateForm}>Add</Button>
+              <Button onClick={goToAddRoutine}>Add</Button>
             </div>
           </div>
         </div>
@@ -49,7 +48,6 @@ export function RoutinesScreen() {
           )}
         </GridLayout>
       </div>
-      <RoutineForm close={closeForm} isOpen={isOpenForm} type={formType} />
     </MainLayout>
   );
 }

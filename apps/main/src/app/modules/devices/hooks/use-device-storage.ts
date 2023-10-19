@@ -1,12 +1,22 @@
-import { DeviceState, IDevice } from '@mautomate/api-interfaces';
+import { DeviceState, DeviceType, IDevice } from '@mautomate/api-interfaces';
 import { atom, useAtom } from 'jotai';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 const devicesAtom = atom<IDevice[]>([]);
 const mostUsedDevicesAtom = atom<IDevice[]>([]);
 export function useDeviceStorage() {
   const [devices, setDevices] = useAtom(devicesAtom);
   const [mostUsedDevices, setMostUsedDevices] = useAtom(mostUsedDevicesAtom);
+
+  const lightDevices = useMemo(
+    () => devices.filter((device) => device.type === DeviceType.Light),
+    [devices]
+  );
+
+  const switchDevices = useMemo(
+    () => devices.filter((device) => device.type !== DeviceType.Light),
+    [devices]
+  );
 
   function setLoadingDevice(deviceId: string) {
     setDevices((previousDevices) =>
@@ -59,6 +69,8 @@ export function useDeviceStorage() {
 
   return {
     devices,
+    lightDevices,
+    switchDevices,
     mostUsedDevices,
     setMostUsedDevices,
     setDevices,

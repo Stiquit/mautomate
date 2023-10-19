@@ -11,10 +11,15 @@ import {
 import { Injectable, Logger } from '@nestjs/common';
 import { MqttClientService } from '../../mqtt/services/mqtt-client.service';
 import { DeviceService } from '../../device/services/device.service';
-
+import {
+  HumanizeDurationLanguage,
+  HumanizeDuration,
+} from 'humanize-duration-ts';
 @Injectable()
 export class RoutineIoTService {
   private logger = new Logger(RoutineIoTService.name);
+  private langService = new HumanizeDurationLanguage();
+  private humanizer = new HumanizeDuration(this.langService);
 
   constructor(
     private mqttClientService: MqttClientService,
@@ -44,7 +49,7 @@ export class RoutineIoTService {
 
   handleWaitAction(action: WaitAction) {
     const { waitFor } = action;
-    this.logger.log(`Applying delay of: ${waitFor} ms`);
+    this.logger.log(`Applying delay of: ${this.humanizer.humanize(waitFor)}`);
     return new Promise((resolve) => setTimeout(resolve, waitFor));
   }
 

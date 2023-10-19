@@ -1,9 +1,26 @@
+@use 'scrollbar.scss' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--primary-font-family);
+}
+
+.title {
+  color: var(--secondary-color);
+  margin: 15px 0 25px;
+  font-size: 24px;
+  font-family: var(--secondary-font-family);
+}
+
 .form-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding-top: 10px;
+  padding-bottom: 40px;
+  position: relative;
   gap: 25px;
   & :global {
     .MuiAutocomplete-root {
@@ -12,6 +29,7 @@
       label {
         font-family: var(--primary-font-family);
         color: var(--primary-color);
+        border-color: var(--secondary-color);
         &:focus {
           outline: none;
         }
@@ -22,21 +40,8 @@
       color: var(--primary-color);
     }
 
-    .cron_builder {
-      font-family: var(--primary-font-family);
-
-      background-color: transparent;
-      & .nav li a {
-        color: var(--primary-color);
-      }
-      & .nav-link.active {
-        color: var(--secondary-bg-color);
-      }
-
-      & .well {
-        font-weight: 500;
-        color: #000;
-      }
+    .react-js-cron {
+      color: var(--primary-color);
     }
   }
 }
@@ -59,4 +64,58 @@
   align-items: center;
   width: 100%;
   gap: 15px;
+}
+
+.subtitle {
+  font-family: var(--secondary-font-family);
+  color: var(--secondary-color);
+  font-weight: 700;
+  text-align: left;
+  font-size: 20px;
+  padding: 8px 0;
+  width: 100%;
+}
+
+.actions {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 25px;
+  .configuration {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+  }
+}
+
+.routine-actions {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  flex-grow: 1;
+  overflow-y: hidden;
+  @include scrollbar();
+  padding-bottom: 10px;
+  .action {
+    margin-right: 30px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+}
+
+.recurrence {
+  position: relative;
+  z-index: 20000;
 }

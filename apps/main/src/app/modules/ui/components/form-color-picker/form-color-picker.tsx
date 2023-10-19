@@ -5,8 +5,7 @@ import {
 } from '../form-base-field/form-base-field';
 import { ControllerProps, FieldValues } from 'react-hook-form';
 import { useRef } from 'react';
-import Cron from 'react-js-cron';
-import 'react-js-cron/dist/styles.css';
+import { RgbaColorPicker } from 'react-colorful';
 
 export type FormTextFieldProps<T extends FieldValues> = Omit<
   TextFieldProps,
@@ -15,7 +14,7 @@ export type FormTextFieldProps<T extends FieldValues> = Omit<
   variant?: TextFieldProps['variant'];
 } & BaseControllerProps<T>;
 
-export function RecurrencePickerField<T extends FieldValues>(
+export function FormColorPicker<T extends FieldValues>(
   props: FormTextFieldProps<T>
 ) {
   const { name, control, validators } = props;
@@ -23,14 +22,16 @@ export function RecurrencePickerField<T extends FieldValues>(
 
   const render: ControllerProps['render'] = ({ field, fieldState }) => (
     <>
-      <Cron
-        value={field.value ?? ''}
-        setValue={field.onChange}
-        defaultPeriod="week"
-        humanizeLabels
-        displayError
-        allowedDropdowns={['week-days', 'minutes', 'period', 'hours']}
-        allowedPeriods={['day', 'hour', 'week']}
+      <RgbaColorPicker
+        onChange={field.onChange}
+        color={
+          field.value || {
+            r: 223,
+            g: 223,
+            b: 223,
+            a: 1,
+          }
+        }
       />
       {fieldState.error && (
         <div className="Mui-error">{fieldState.error.message}</div>

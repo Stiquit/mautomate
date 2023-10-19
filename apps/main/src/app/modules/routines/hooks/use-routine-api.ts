@@ -14,8 +14,6 @@ export function useRoutineApi() {
 
   const [loadingRequest, setLoadingRequest] = useAtom(loadingRequestAtom);
 
-  //
-
   async function getUserRoutines() {
     setLoadingRequest(true);
     try {

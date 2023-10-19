@@ -90,7 +90,7 @@ export function GroupForm(props: GroupFormProps) {
               getOptionLabel={(option) => option.name}
               renderOption={(option) => (
                 <div className={styles['option']}>
-                  <DeviceContainer device={option} />
+                  <DeviceContainer device={option} transparent />
                 </div>
               )}
             />

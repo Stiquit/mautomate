@@ -6,13 +6,17 @@ import { Loader } from '../../../ui/components/loader/loader';
 
 export interface DeviceContainerProps {
   device: IDevice;
+  transparent?: boolean;
 }
 
 export function DeviceContainer(props: DeviceContainerProps) {
-  const { device } = props;
+  const { device, transparent } = props;
   const { name, state, type } = device;
   return (
-    <div className={styles['device']}>
+    <div
+      className={styles['device']}
+      style={transparent ? { backgroundColor: 'transparent' } : undefined}
+    >
       <div className={styles['name']}>{name}</div>
       <div
         className={cn(styles['icon'], {

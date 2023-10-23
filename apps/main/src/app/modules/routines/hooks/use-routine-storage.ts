@@ -11,6 +11,10 @@ const routinesAtom = atom<IRoutine[]>([]);
 export function useRoutineStorage() {
   const [routines, setRoutines] = useAtom(routinesAtom);
 
+  function findRoutine(id: string | undefined) {
+    return routines.find(({ _id }) => String(_id) === id);
+  }
+
   function removeRoutine(routineToDelete: IRoutine) {
     setRoutines((previousRoutines) =>
       previousRoutines.filter(
@@ -42,6 +46,7 @@ export function useRoutineStorage() {
     setRoutines,
     removeRoutine: useCallback(removeRoutine, [setRoutines]),
     updateRoutine: useCallback(updateRoutine, [setRoutines]),
+    findRoutine: useCallback(findRoutine, [routines]),
     isDeviceAction,
     isLightAction,
   };

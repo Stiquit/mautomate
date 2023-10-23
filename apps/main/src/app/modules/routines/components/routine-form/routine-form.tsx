@@ -18,6 +18,12 @@ import { DeviceContainer } from '../../../devices/components/device-container/de
 import { FormColorPicker } from '../../../ui/components/form-color-picker/form-color-picker';
 import { RoutineActionContainer } from '../routine-action-container/routine-action-container';
 import { MainLayout } from '../../../shared/components/main-layout/main-layout';
+import { useParams } from 'react-router-dom';
+import { useRoutineStorage } from '../../hooks/use-routine-storage';
+import { useOnInit } from '../../../shared/hooks/use-on-init';
+import { useRouter } from '../../../routing/hooks/use-router';
+import { FaTrashCan } from 'react-icons/fa6';
+import { useRoutineApi } from '../../hooks/use-routine-api';
 
 export interface RoutineFormProps {
   type: FormType;
@@ -33,21 +39,47 @@ export function RoutineForm(props: RoutineFormProps) {
     routineActionType,
     submitAction,
     actions,
+    setRoutineValues,
+    removeAction,
   } = useRoutineForm();
+  const { id } = useParams<{ id: string }>();
   const { switchDevices, lightDevices } = useDeviceStorage();
+  const { goToRoutines } = useRouter();
+  const { findRoutine } = useRoutineStorage();
+  const { getUserRoutines } = useRoutineApi();
+  const routineToUpdate = findRoutine(id);
+
+  useOnInit(() => {
+    getUserRoutines();
+    if (type === 'edit' && routineToUpdate) {
+      setRoutineValues(routineToUpdate);
+    }
+  });
+
+  if (type === 'edit' && !routineToUpdate) {
+    return (
+      <MainLayout>
+        <Card>
+          <div className={styles['not-found']}>
+            <div className={styles['title']}>Routine not found</div>
+            <Button onClick={goToRoutines}>Go to Routines</Button>
+          </div>
+        </Card>
+      </MainLayout>
+    );
+  }
 
   return (
     <MainLayout>
       <div className={styles['container']}>
         <div className={styles['title']}>
-          {' '}
           {type === 'create' && 'Add a new routine'}
           {type === 'edit' && 'Edit your routine'}
         </div>
         <FormProvider {...formMethods}>
           <form
             className={styles['form-container']}
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit((data) => onSubmit(data, type, String(id)))}
           >
             <FormTextField
               name="name"
@@ -60,6 +92,7 @@ export function RoutineForm(props: RoutineFormProps) {
             <RecurrencePickerField
               name="recurrence"
               label="recurrence"
+              className={styles['humanized-cron']}
               control={control}
               validators={[requiredValidator('Select a recurrence')]}
             />
@@ -70,6 +103,11 @@ export function RoutineForm(props: RoutineFormProps) {
                 <div className={styles['routine-actions']}>
                   {actions.map((action, i) => (
                     <div className={styles['action']} key={`action-${i}`}>
+                      {type === 'edit' && (
+                        <div className={styles['delete']}>
+                          <FaTrashCan onClick={() => removeAction(i)} />
+                        </div>
+                      )}
                       <RoutineActionContainer action={action} />
                     </div>
                   ))}
@@ -100,25 +138,41 @@ export function RoutineForm(props: RoutineFormProps) {
                   )}
                   {routineActionType !== RoutineActionType.Wait && (
                     <>
-                      <FormSelectField
-                        name="actionConfig.device"
-                        label="Device to apply"
-                        options={
-                          routineActionType === RoutineActionType.Light
-                            ? lightDevices
-                            : switchDevices
-                        }
-                        control={control}
-                        isOptionEqualToValue={(optionA, optionB) =>
-                          String(optionA._id) === String(optionB._id)
-                        }
-                        getOptionLabel={(option) => option.name}
-                        renderOption={(option) => (
-                          <div className={styles['option']}>
-                            <DeviceContainer device={option} transparent />
-                          </div>
-                        )}
-                      />
+                      {routineActionType === RoutineActionType.Light && (
+                        <FormSelectField
+                          name="actionConfig.device"
+                          label="Device to apply"
+                          options={lightDevices}
+                          control={control}
+                          isOptionEqualToValue={(optionA, optionB) =>
+                            String(optionA._id) === String(optionB._id)
+                          }
+                          getOptionLabel={(option) => option.name}
+                          renderOption={(option) => (
+                            <div className={styles['option']}>
+                              <DeviceContainer device={option} transparent />
+                            </div>
+                          )}
+                        />
+                      )}
+                      {routineActionType === RoutineActionType.Device && (
+                        <FormSelectField
+                          name="actionConfig.device"
+                          label="Device to apply"
+                          options={switchDevices}
+                          control={control}
+                          isOptionEqualToValue={(optionA, optionB) =>
+                            String(optionA._id) === String(optionB._id)
+                          }
+                          getOptionLabel={(option) => option.name}
+                          renderOption={(option) => (
+                            <div className={styles['option']}>
+                              <DeviceContainer device={option} transparent />
+                            </div>
+                          )}
+                        />
+                      )}
+
                       <FormSelectField
                         name="actionConfig.state"
                         label="device state"

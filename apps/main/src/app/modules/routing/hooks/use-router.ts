@@ -12,6 +12,8 @@ export function useRouter() {
   const goToGroups = () => navigate('/groups');
   const goToProfile = () => navigate('/profile');
   const goToAddRoutine = () => navigate('/routines/create');
+  const goToEditRoutine = (id: string) => navigate(`/routines/edit/${id}`);
+
   return {
     goToHome: useCallback(goToHome, [navigate]),
     goToLogin: useCallback(goToLogin, [navigate]),
@@ -20,6 +22,7 @@ export function useRouter() {
     goToGroups: useCallback(goToGroups, [navigate]),
     goToProfile: useCallback(goToProfile, [navigate]),
     goToAddRoutine: useCallback(goToAddRoutine, [navigate]),
+    goToEditRoutine: useCallback(goToEditRoutine, [navigate]),
     currentRoute: useMemo(() => location.pathname, [location.pathname]),
   };
 }

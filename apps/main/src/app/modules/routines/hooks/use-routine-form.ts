@@ -8,16 +8,21 @@ import {
 import {
   BaseDeviceAction,
   CreateRoutineDto,
+  IRoutine,
   LightDeviceAction,
   RoutineAction,
   WaitAction,
 } from '@mautomate/api-interfaces';
 import { useRoutineApi } from './use-routine-api';
 import { useRouter } from '../../routing/hooks/use-router';
+import { useCallback } from 'react';
+import { useRoutineStorage } from './use-routine-storage';
+import { FormType } from '../../ui/types/form-type';
 
 export function useRoutineForm() {
   const { goToRoutines } = useRouter();
-  const { createRoutine } = useRoutineApi();
+  const { createRoutine, updateRoutineInformation } = useRoutineApi();
+  const { isDeviceAction } = useRoutineStorage();
   const { formMethods, control, handleSubmit, watch, getValues } =
     useFormControl<RoutineForm>({
       actionConfig: {} as RoutineActionConfig,
@@ -30,14 +35,18 @@ export function useRoutineForm() {
   const actions = watch('actions');
   const routineActionType = watch('routineActionType');
 
-  function onSubmit(data: RoutineForm) {
+  function onSubmit(data: RoutineForm, type: FormType, id: string) {
     const { actions, recurrence, name } = data;
     const payload: CreateRoutineDto = {
       name,
       actions,
       recurrence,
     };
-    createRoutine(payload);
+    if (type === 'create') {
+      createRoutine(payload);
+    } else {
+      updateRoutineInformation(id, payload);
+    }
     goToRoutines();
   }
 
@@ -79,11 +88,27 @@ export function useRoutineForm() {
     return addActionAndRestartConfig(action);
   }
 
+  function removeAction(index: number) {
+    return setValue(
+      'actions',
+      actions.filter((_, id) => {
+        return id !== index;
+      })
+    );
+  }
+
   function addActionAndRestartConfig(action: RoutineAction) {
     const { actions } = getValues();
     setValue('actionConfig', {} as RoutineActionConfig);
     setValue('routineActionType', RoutineActionType.Device);
     return setValue('actions', [...actions, action]);
+  }
+
+  function setRoutineValues(routineValues: IRoutine) {
+    const { actions, name, recurrence } = routineValues;
+    setValue('name', name);
+    setValue('actions', actions);
+    setValue('recurrence', recurrence);
   }
 
   function isWaitActionConfig(
@@ -106,5 +131,7 @@ export function useRoutineForm() {
     actions,
     routineActionType,
     submitAction,
+    removeAction: useCallback(removeAction, [actions, setValue]),
+    setRoutineValues: useCallback(setRoutineValues, [setValue]),
   };
 }

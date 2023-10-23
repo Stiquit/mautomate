@@ -7,6 +7,7 @@ import construe from 'cronstrue';
 import { RoutineActionContainer } from '../routine-action-container/routine-action-container';
 import { useDialog } from '../../../ui/hook/use-dialog';
 import { DeleteRoutineDialog } from '../delete-routine/delete-routine';
+import { useRouter } from '../../../routing/hooks/use-router';
 
 export interface RoutineCardProps {
   routine: IRoutine;
@@ -22,6 +23,7 @@ export function RoutineCard(props: RoutineCardProps) {
     close: closeDeleteGroup,
     open: openDeleteGroup,
   } = useDialog();
+  const { goToEditRoutine } = useRouter();
   return (
     <Card>
       <div className={styles['container']}>
@@ -56,7 +58,7 @@ export function RoutineCard(props: RoutineCardProps) {
                 <FaTrashCan onClick={openDeleteGroup} />
               </div>
               <div className={styles['action']}>
-                <FaPen />
+                <FaPen onClick={() => goToEditRoutine(String(_id))} />
               </div>
             </div>
           </>

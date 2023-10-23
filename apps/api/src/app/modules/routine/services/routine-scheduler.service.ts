@@ -25,10 +25,11 @@ export class RoutineSchedulerService implements OnModuleInit {
       this.logger.log(
         `Create routine : ${name} - ${construe.toString(recurrence)}`
       );
-      const job = new CronJob(
-        recurrence,
-        this.routineIotService.handleRoutineActions(userId, actions)
-      );
+      const job = new CronJob({
+        cronTime: recurrence,
+        onTick: this.routineIotService.handleRoutineActions(userId, actions),
+        timeZone: 'America/Bogota',
+      });
       this.schedulerRegistry.addCronJob(name, job);
       job.start();
     }
@@ -59,6 +60,7 @@ export class RoutineSchedulerService implements OnModuleInit {
 
     if (this.schedulerRegistry.doesExist('cron', routineName)) {
       this.schedulerRegistry.deleteCronJob(routineName);
+      this.logger.log(`Deleted routine cron: ${routineName}`);
     }
     await this.removeCron(routineName);
     this.logger.log(`Deleted routine : ${routineName}`);

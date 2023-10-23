@@ -19,6 +19,7 @@ export const browserRouter = createBrowserRouter([
       { path: '/devices', element: <DevicesScreen /> },
       { path: '/routines', element: <RoutinesScreen /> },
       { path: '/routines/create', element: <RoutineForm type={'create'} /> },
+      { path: '/routines/edit/:id', element: <RoutineForm type={'edit'} /> },
       { path: '/groups', element: <GroupScreen /> },
       { path: '/ambiences', element: <AmbiencesScreen /> },
       { path: '/profile', element: <ProfileScreen /> },

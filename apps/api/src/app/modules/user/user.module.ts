@@ -19,7 +19,7 @@ import { UserController } from './controllers/user.controller';
     }),
   ],
   providers: [UserService, AuthService, JwtService, TokenGeneratorService],
-  exports: [UserService],
+  exports: [UserService, JwtService],
   controllers: [AuthController, UserController],
 })
 export class UserModule {}

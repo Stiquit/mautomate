@@ -30,13 +30,12 @@ export class AuthorizationGuard implements CanActivate {
     }
     const request = context.switchToHttp().getRequest<Request>();
     const token = this.extractTokenFromHeader(request);
-
     if (!token) {
       throw new UnauthorizedException();
     }
 
     try {
-      const payload = this.jwtService.verify<JwtPayload>(token, {
+      const payload = await this.jwtService.verifyAsync<JwtPayload>(token, {
         secret: process.env.JWT_SECRET,
       });
       request['payload'] = payload;

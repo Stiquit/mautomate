@@ -1,5 +1,6 @@
 import { useFormControl } from '../../ui/hook/use-form-control';
 import {
+  ActionStateOptions,
   RoutineActionConfig,
   RoutineActionType,
   RoutineForm,
@@ -16,21 +17,27 @@ import {
 import { useRoutineApi } from './use-routine-api';
 import { useRouter } from '../../routing/hooks/use-router';
 import { useCallback } from 'react';
-import { useRoutineStorage } from './use-routine-storage';
 import { FormType } from '../../ui/types/form-type';
 
 export function useRoutineForm() {
   const { goToRoutines } = useRouter();
   const { createRoutine, updateRoutineInformation } = useRoutineApi();
-  const { isDeviceAction } = useRoutineStorage();
-  const { formMethods, control, handleSubmit, watch, getValues } =
-    useFormControl<RoutineForm>({
-      actionConfig: {} as RoutineActionConfig,
-      name: '',
-      recurrence: '',
-      actions: [],
-      routineActionType: RoutineActionType.Device,
-    });
+  const {
+    formMethods,
+    control,
+    handleSubmit,
+    watch,
+    getValues,
+    reset,
+    setError,
+    clearErrors,
+  } = useFormControl<RoutineForm>({
+    actionConfig: {} as RoutineActionConfig,
+    name: '',
+    recurrence: '',
+    actions: [],
+    routineActionType: RoutineActionType.Device,
+  });
   const { setValue } = formMethods;
   const actions = watch('actions');
   const routineActionType = watch('routineActionType');
@@ -47,11 +54,14 @@ export function useRoutineForm() {
     } else {
       updateRoutineInformation(id, payload);
     }
+    reset();
     goToRoutines();
   }
 
   function submitAction() {
     const { actionConfig } = getValues();
+    console.log('New action →', actionConfig);
+    clearErrors('actionConfig.state');
     if (isWaitActionConfig(actionConfig)) {
       const { waitFor } = actionConfig;
       const action: WaitAction = {
@@ -60,12 +70,14 @@ export function useRoutineForm() {
       return addActionAndRestartConfig(action);
     }
     const { state, device } = actionConfig;
-    const selectedState: { label: string; value: number } =
-      state as unknown as {
-        label: string;
-        value: number;
-      };
-    const deviceState = selectedState.value === 1 ? true : false;
+    if (!state) {
+      return setError('actionConfig.state', {
+        type: 'custom',
+        message: 'Choose the state to apply',
+      });
+    }
+
+    const deviceState = state.value === 1 ? true : false;
     const deviceId = String(device._id);
     if (isLightActionConfig(actionConfig)) {
       const { blue, brightness, green, red } = actionConfig;
@@ -100,6 +112,7 @@ export function useRoutineForm() {
   function addActionAndRestartConfig(action: RoutineAction) {
     const { actions } = getValues();
     setValue('actionConfig', {} as RoutineActionConfig);
+    setValue('actionConfig.state', ActionStateOptions[0]);
     setValue('routineActionType', RoutineActionType.Device);
     return setValue('actions', [...actions, action]);
   }

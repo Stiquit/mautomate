@@ -1,6 +1,6 @@
 export enum DeviceType {
-  Light = 'Light',
-  Switch = 'Switch',
+  Light = 'RGB Light',
+  Switch = 'Lightbulb',
   Tv = 'Tv',
   Lamp = 'Lamp',
   CoffeeMachine = 'CoffeeMachine',

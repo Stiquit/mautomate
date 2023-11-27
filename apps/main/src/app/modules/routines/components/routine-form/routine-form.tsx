@@ -103,11 +103,9 @@ export function RoutineForm(props: RoutineFormProps) {
                 <div className={styles['routine-actions']}>
                   {actions.map((action, i) => (
                     <div className={styles['action']} key={`action-${i}`}>
-                      {type === 'edit' && (
-                        <div className={styles['delete']}>
-                          <FaTrashCan onClick={() => removeAction(i)} />
-                        </div>
-                      )}
+                      <div className={styles['delete']}>
+                        <FaTrashCan onClick={() => removeAction(i)} />
+                      </div>
                       <RoutineActionContainer action={action} />
                     </div>
                   ))}

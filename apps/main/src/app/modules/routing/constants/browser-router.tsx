@@ -5,7 +5,6 @@ import { AuthScreen } from '../../auth/components/auth-screen/auth-screen';
 import { DevicesScreen } from '../../devices/components/devices-screen/devices-screen';
 import { RoutinesScreen } from '../../routines/components/routines-screen/routines-screen';
 import { GroupScreen } from '../../groups/components/group-screen/group-screen';
-import { AmbiencesScreen } from '../../ambiences/components/ambiences-screen/ambiences-screen';
 import { ProfileScreen } from '../../user/components/profile-screen/profile-screen';
 import { RoutineForm } from '../../routines/components/routine-form/routine-form';
 
@@ -21,7 +20,6 @@ export const browserRouter = createBrowserRouter([
       { path: '/routines/create', element: <RoutineForm type={'create'} /> },
       { path: '/routines/edit/:id', element: <RoutineForm type={'edit'} /> },
       { path: '/groups', element: <GroupScreen /> },
-      { path: '/ambiences', element: <AmbiencesScreen /> },
       { path: '/profile', element: <ProfileScreen /> },
     ],
   },

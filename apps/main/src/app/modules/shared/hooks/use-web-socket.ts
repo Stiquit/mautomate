@@ -64,6 +64,7 @@ export function useWebSocket() {
 
   function onLightTurn(payload: TurnLightDevice) {
     onDeviceTurn(payload);
+    payload.brightness = payload.brightness * 100;
     webSocket?.emit(DEVICE_LIGHT_CHANNEL, payload);
   }
 

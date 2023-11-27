@@ -44,7 +44,7 @@ export function RoutinesScreen() {
               />
             ))}
           {routines.length === 0 && (
-            <EmptyScreen message="You have no routines, try creating or discovering one" />
+            <EmptyScreen message="You have no routines, try creating one" />
           )}
         </GridLayout>
       </div>

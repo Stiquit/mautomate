@@ -50,6 +50,7 @@ export function RoutineActionContainer(props: RoutineActionContainerProps) {
           >
             {DeviceTypeToIcon[type]}
           </div>
+          <div className={styles['type']}>{device.name}</div>
         </div>
       );
     }

@@ -27,7 +27,7 @@ export function GroupForm(props: GroupFormProps) {
   const { isOpen, close, type, group } = props;
   const { devices } = useDeviceStorage();
   const { createGroup, updateGroupInformation } = useGroupApi();
-  const { formMethods, handleSubmit, control } = useFormControl<{
+  const { formMethods, handleSubmit, control, reset } = useFormControl<{
     name: string;
     devices: IDevice[];
   }>({
@@ -44,14 +44,19 @@ export function GroupForm(props: GroupFormProps) {
     };
     if (type === 'create') {
       createGroup(payload);
-      return close();
+      return handleClose();
     }
 
     if (!group) {
-      return close();
+      return handleClose();
     }
     updateGroupInformation(String(group._id), payload);
-    return close();
+    return handleClose();
+  }
+
+  function handleClose() {
+    reset();
+    close();
   }
 
   return (

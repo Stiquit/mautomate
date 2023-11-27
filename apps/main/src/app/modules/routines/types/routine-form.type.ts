@@ -24,13 +24,21 @@ export const ActionStateOptions: { label: string; value: number }[] = [
   },
 ];
 
-export interface RoutineDeviceAction extends BaseDeviceAction {
+export interface RoutineDeviceAction extends Omit<BaseDeviceAction, 'state'> {
   device: IDevice;
+  state: {
+    label: string;
+    value: number;
+  };
 }
 
-export interface RoutineLightAction extends LightDeviceAction {
+export interface RoutineLightAction extends Omit<LightDeviceAction, 'state'> {
   device: IDevice;
   color: RgbaColor;
+  state: {
+    label: string;
+    value: number;
+  };
 }
 
 export type RoutineActionConfig =

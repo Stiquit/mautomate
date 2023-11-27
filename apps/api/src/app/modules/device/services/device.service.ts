@@ -41,6 +41,9 @@ export class DeviceService {
           $in: ids,
         },
       })
+      .sort({
+        name: 1,
+      })
       .exec();
   }
 

@@ -58,7 +58,7 @@ export function DeviceCard(props: DeviceCardProps) {
         red: color.r,
         green: color.g,
         blue: color.b,
-        brightness: color.g,
+        brightness: color.a,
         type,
       });
     }

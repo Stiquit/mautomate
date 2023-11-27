@@ -34,7 +34,7 @@ export function DeviceForm(props: DeviceFormProps) {
   const { isOpen, close, type, device } = props;
   const { postDevice, updateDeviceInformation } = useDeviceApi();
 
-  const { formMethods, handleSubmit, control } =
+  const { formMethods, handleSubmit, control, reset } =
     useFormControl<CreateDeviceDTO>({
       name: device?.name ?? 'new device',
       pin: device?.pin ?? 0,
@@ -42,16 +42,23 @@ export function DeviceForm(props: DeviceFormProps) {
     });
 
   function onSubmit(data: CreateDeviceDTO) {
+    reset();
     if (type === 'create') {
       postDevice(data);
-      return close();
+      return handleClose();
     }
 
     if (!device) {
-      return close();
+      return handleClose();
     }
+
     updateDeviceInformation(String(device._id), data);
-    return close();
+    return handleClose();
+  }
+
+  function handleClose() {
+    reset();
+    close();
   }
 
   return (

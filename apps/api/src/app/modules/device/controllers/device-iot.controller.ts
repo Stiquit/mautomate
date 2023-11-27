@@ -16,7 +16,7 @@ export class DeviceIotController {
 
   @MessagePattern(DEVICE_RESPONSE_CHANNEL)
   responseFromDevice(@Payload() data: DeviceMQTTResponse) {
-    this.deviceGateway.server.emit('devices/response', data);
+    this.deviceGateway.server.emit(DEVICE_RESPONSE_CHANNEL, data);
     return this.deviceIoTService.updateDeviceState(data);
   }
 }

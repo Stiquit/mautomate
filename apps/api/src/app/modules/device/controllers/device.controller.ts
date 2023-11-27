@@ -53,22 +53,4 @@ export class DeviceController {
     const { id: userId } = payload;
     return this.deviceService.deleteById(id, userId);
   }
-
-  /**
-   *
-   * TODO: Remove this endpoint
-   */
-  @Get('all')
-  async findDevices() {
-    return await this.deviceService.findAll();
-  }
-
-  /**
-   *
-   * TODO: Remove this endpoint
-   */
-  @Get(':id')
-  async findById(@Param('id') id: string) {
-    return this.deviceService.findById(id);
-  }
 }

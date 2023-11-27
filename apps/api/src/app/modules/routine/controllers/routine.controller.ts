@@ -48,22 +48,4 @@ export class RoutineController {
     const { id: userId } = payload;
     return this.routineService.deleteById(id, userId);
   }
-
-  /**
-   *
-   * TODO: Remove this endpoint
-   */
-  @Get('all')
-  async findAll() {
-    return this.routineService.findAll();
-  }
-
-  /**
-   *
-   * TODO: Remove this endpoint
-   */
-  @Get(':id')
-  async findById(@Param('id') id: string) {
-    return this.routineService.findById(id);
-  }
 }

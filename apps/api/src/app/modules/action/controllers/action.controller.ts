@@ -18,9 +18,4 @@ export class ActionController {
     const { id } = payload;
     return this.actionService.findUserMostUsedDevices(id);
   }
-
-  @Get('all')
-  async getAllActions() {
-    return this.actionService.findAll();
-  }
 }

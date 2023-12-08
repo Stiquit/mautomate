@@ -20,7 +20,7 @@ export const browserRouter = createBrowserRouter([
       { path: '/routines/create', element: <RoutineForm type={'create'} /> },
       { path: '/routines/edit/:id', element: <RoutineForm type={'edit'} /> },
       { path: '/groups', element: <GroupScreen /> },
-      { path: '/profile', element: <ProfileScreen /> },
+      // { path: '/profile', element: <ProfileScreen /> },
     ],
   },
   { path: '/login', element: <AuthScreen /> },

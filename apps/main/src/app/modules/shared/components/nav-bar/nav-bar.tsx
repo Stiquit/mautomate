@@ -88,7 +88,7 @@ export function NavBar() {
           <Menu className={styles['footer']}>
             <MenuItem
               icon={<FaCircleUser />}
-              onClick={goToProfile}
+              // onClick={goToProfile}
               className={cn(styles['item'], {
                 [styles['selected']]: currentRoute.includes('profile'),
               })}

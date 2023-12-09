@@ -60,7 +60,7 @@ export function useRoutineForm() {
 
   function submitAction() {
     const { actionConfig } = getValues();
-    console.log('New action →', actionConfig);
+
     clearErrors('actionConfig.state');
     if (isWaitActionConfig(actionConfig)) {
       const { waitFor } = actionConfig;

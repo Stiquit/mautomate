@@ -13,7 +13,7 @@ export function useGroupApi() {
   const [loadingRequest, setLoadingRequest] = useAtom(loadingRequestAtom);
   const { handleError } = useRequestError();
 
-  const getUserGroups = async () => {
+  const getUserGroups = useCallback(async () => {
     setLoadingRequest(true);
     try {
       const response = await axios.get<IGroup[]>('api/group/user', {
@@ -29,7 +29,7 @@ export function useGroupApi() {
     } finally {
       setLoadingRequest(false);
     }
-  };
+  }, [getToken, handleError, setGroups, setLoadingRequest]);
 
   const createGroup = async (data: CreateGroupDto) => {
     setLoadingRequest(true);
@@ -46,6 +46,7 @@ export function useGroupApi() {
       console.error(err);
     } finally {
       setLoadingRequest(false);
+      getUserGroups();
     }
   };
 
@@ -64,6 +65,7 @@ export function useGroupApi() {
       console.error(err);
     } finally {
       setLoadingRequest(false);
+      getUserGroups();
     }
   };
 
@@ -82,30 +84,29 @@ export function useGroupApi() {
       console.error(err);
     } finally {
       setLoadingRequest(false);
+      getUserGroups();
     }
   };
 
   return {
-    getUserGroups: useCallback(getUserGroups, [
-      getToken,
-      handleError,
-      setGroups,
-      setLoadingRequest,
-    ]),
+    getUserGroups,
     updateGroupInformation: useCallback(updateGroupInformation, [
       getToken,
+      getUserGroups,
       handleError,
       setLoadingRequest,
       updateGroup,
     ]),
     deleteGroup: useCallback(deleteGroup, [
       getToken,
+      getUserGroups,
       handleError,
       removeGroup,
       setLoadingRequest,
     ]),
     createGroup: useCallback(createGroup, [
       getToken,
+      getUserGroups,
       handleError,
       setGroups,
       setLoadingRequest,

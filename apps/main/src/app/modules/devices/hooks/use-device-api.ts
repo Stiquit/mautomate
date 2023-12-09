@@ -18,7 +18,7 @@ export function useDeviceApi() {
   const [loadingRequest, setLoadingRequest] = useAtom(loadingRequestAtom);
   const { handleError } = useRequestError();
 
-  const getUserDevices = async () => {
+  const getUserDevices = useCallback(async () => {
     setLoadingRequest(true);
     try {
       const response = await axios.get<IDevice[]>('api/device/user', {
@@ -34,7 +34,7 @@ export function useDeviceApi() {
     } finally {
       setLoadingRequest(false);
     }
-  };
+  }, [getToken, handleError, setDevices, setLoadingRequest]);
 
   const deleteDevice = async (id: string) => {
     setLoadingRequest(true);
@@ -51,6 +51,7 @@ export function useDeviceApi() {
       console.error(err);
     } finally {
       setLoadingRequest(false);
+      getUserDevices();
     }
   };
 
@@ -79,6 +80,7 @@ export function useDeviceApi() {
       console.error(err);
     } finally {
       setLoadingRequest(false);
+      getUserDevices();
     }
   };
 
@@ -104,30 +106,29 @@ export function useDeviceApi() {
       console.error(err);
     } finally {
       setLoadingRequest(false);
+      getUserDevices();
     }
   };
 
   return {
-    getUserDevices: useCallback(getUserDevices, [
-      getToken,
-      handleError,
-      setDevices,
-      setLoadingRequest,
-    ]),
+    getUserDevices,
     deleteDevice: useCallback(deleteDevice, [
       getToken,
+      getUserDevices,
       handleError,
       removeDevice,
       setLoadingRequest,
     ]),
     postDevice: useCallback(postDevice, [
       getToken,
+      getUserDevices,
       handleError,
       setDevices,
       setLoadingRequest,
     ]),
     updateDeviceInformation: useCallback(updateDeviceInformation, [
       getToken,
+      getUserDevices,
       handleError,
       setLoadingRequest,
       updateDevice,

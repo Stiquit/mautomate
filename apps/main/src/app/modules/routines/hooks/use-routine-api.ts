@@ -14,7 +14,7 @@ export function useRoutineApi() {
 
   const [loadingRequest, setLoadingRequest] = useAtom(loadingRequestAtom);
 
-  async function getUserRoutines() {
+  const getUserRoutines = useCallback(async () => {
     setLoadingRequest(true);
     try {
       const response = await axios.get<IRoutine[]>('api/routine/user', {
@@ -30,7 +30,7 @@ export function useRoutineApi() {
     } finally {
       setLoadingRequest(false);
     }
-  }
+  }, [getToken, handleError, setLoadingRequest, setRoutines]);
 
   async function createRoutine(data: CreateRoutineDto) {
     setLoadingRequest(true);
@@ -47,6 +47,7 @@ export function useRoutineApi() {
       console.error(err);
     } finally {
       setLoadingRequest(false);
+      getUserRoutines();
     }
   }
 
@@ -65,6 +66,7 @@ export function useRoutineApi() {
       console.error(err);
     } finally {
       setLoadingRequest(false);
+      getUserRoutines();
     }
   }
 
@@ -83,30 +85,29 @@ export function useRoutineApi() {
       console.error(err);
     } finally {
       setLoadingRequest(false);
+      getUserRoutines();
     }
   }
 
   return {
-    getUserRoutines: useCallback(getUserRoutines, [
-      getToken,
-      handleError,
-      setLoadingRequest,
-      setRoutines,
-    ]),
+    getUserRoutines,
     createRoutine: useCallback(createRoutine, [
       getToken,
+      getUserRoutines,
       handleError,
       setLoadingRequest,
       setRoutines,
     ]),
     deleteRoutine: useCallback(deleteRoutine, [
       getToken,
+      getUserRoutines,
       handleError,
       removeRoutine,
       setLoadingRequest,
     ]),
     updateRoutineInformation: useCallback(updateRoutineInformation, [
       getToken,
+      getUserRoutines,
       handleError,
       setLoadingRequest,
       updateRoutine,

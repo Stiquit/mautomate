@@ -12,6 +12,7 @@ import { useRouter } from '../../../routing/hooks/use-router';
 import cn from 'classnames';
 import { useUserStorage } from '../../../user/hooks/use-user-storage';
 import { useNavBar } from '../../hooks/use-nav-bar';
+import { useAuthApi } from '../../../auth/hooks/use-auth-api';
 
 export function NavBar() {
   const { collapsed, setCollapsed } = useNavBar();
@@ -24,6 +25,7 @@ export function NavBar() {
     currentRoute,
   } = useRouter();
   const { userIdentification } = useUserStorage();
+  const { signOut } = useAuthApi();
   const menuItems = [
     {
       icon: <FaHouse />,
@@ -88,7 +90,7 @@ export function NavBar() {
           <Menu className={styles['footer']}>
             <MenuItem
               icon={<FaCircleUser />}
-              // onClick={goToProfile}
+              onClick={signOut}
               className={cn(styles['item'], {
                 [styles['selected']]: currentRoute.includes('profile'),
               })}

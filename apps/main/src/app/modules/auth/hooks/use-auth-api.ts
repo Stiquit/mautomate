@@ -11,7 +11,7 @@ import { useRequestError } from '../../error-handler/hooks/use-request-error';
 
 export function useAuthApi() {
   const { saveToken, removeToken } = useAccessToken();
-  const { goToHome } = useRouter();
+  const { goToHome, goToLogin } = useRouter();
   const { errorMessage: authorizationError, handleError } = useRequestError();
   const login = async (data: AuthenticationRequest) => {
     try {
@@ -41,12 +41,15 @@ export function useAuthApi() {
     }
   };
 
-  const signOut = () => removeToken();
+  const signOut = () => {
+    removeToken();
+    goToLogin();
+  };
 
   return {
     authorizationError,
     login: useCallback(login, [goToHome, handleError, saveToken]),
     register: useCallback(register, [goToHome, handleError, saveToken]),
-    signOut: useCallback(signOut, [removeToken]),
+    signOut: useCallback(signOut, [goToLogin, removeToken]),
   };
 }

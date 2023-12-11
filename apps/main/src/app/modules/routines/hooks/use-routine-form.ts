@@ -9,6 +9,7 @@ import {
 import {
   BaseDeviceAction,
   CreateRoutineDto,
+  DeviceType,
   IRoutine,
   LightDeviceAction,
   RoutineAction,
@@ -80,15 +81,23 @@ export function useRoutineForm() {
     const deviceState = state.value === 1 ? true : false;
     const deviceId = String(device._id);
     if (isLightActionConfig(actionConfig)) {
-      const { blue, brightness, green, red } = actionConfig;
+      const { color } = actionConfig;
       const action: LightDeviceAction = {
         state: deviceState,
         deviceId,
-        red,
-        green,
-        blue,
-        brightness,
+        red: 0,
+        green: 0,
+        blue: 0,
+        brightness: 0,
       };
+      if (color) {
+        const { b: blue, a: brightness, g: green, r: red } = color;
+        action.red = red;
+        action.green = green;
+        action.blue = blue;
+        action.brightness = brightness;
+      }
+
       return addActionAndRestartConfig(action);
     }
 
@@ -133,7 +142,12 @@ export function useRoutineForm() {
   function isLightActionConfig(
     actionConfig: RoutineActionConfig
   ): actionConfig is RoutineLightAction {
-    return 'red' in actionConfig;
+    if (isWaitActionConfig(actionConfig)) {
+      return false;
+    }
+    return (
+      'color' in actionConfig || actionConfig.device.type === DeviceType.Light
+    );
   }
 
   return {

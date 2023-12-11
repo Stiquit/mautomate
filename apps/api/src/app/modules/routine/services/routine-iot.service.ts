@@ -32,13 +32,13 @@ export class RoutineIoTService {
         return;
       }
       for (const action of actions) {
-        if (this.isDeviceAction(action)) {
-          await this.handleDeviceAction(userId, action);
+        if (this.isLightAction(action)) {
+          await this.handleLightAction(userId, action);
           continue;
         }
 
-        if (this.isLightAction(action)) {
-          await this.handleLightAction(userId, action);
+        if (this.isDeviceAction(action)) {
+          await this.handleDeviceAction(userId, action);
           continue;
         }
 
